@@ -1,4 +1,4 @@
-import makeSelectITunesContainer, { selectITunesContainerDomain } from '../selectors';
+import { selectITunesContainerDomain } from '../selectors';
 
 describe('ITunesContainer selector tests', () => {
   let mockedState;
@@ -8,11 +8,8 @@ describe('ITunesContainer selector tests', () => {
       iTunesContainer: {}
     };
   });
+
   it('should select the user state', () => {
-    const iTunesContainerSelector = makeSelectITunesContainer();
-    expect(iTunesContainerSelector(mockedState)).toEqual(mockedState.iTunesContainer);
-  });
-  it('should select the initial state', () => {
     expect(selectITunesContainerDomain(mockedState)).toEqual(mockedState.iTunesContainer);
   });
 });
