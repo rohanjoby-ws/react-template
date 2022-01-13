@@ -5,26 +5,44 @@
  */
 
 import React, { memo } from 'react';
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, FormattedMessage as T } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
+import styled from 'styled-components';
+import { injectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { injectSaga } from 'redux-injectors';
+import { Card, Input } from 'antd';
 import makeSelectITunesContainer from './selectors';
 import saga from './saga';
 
-export function ITunesContainer() {
+const { Search } = Input;
+
+const CustomCard = styled(Card)`
+  && {
+    margin: 20px 0;
+    max-width: ${(props) => props.maxwidth};
+  }
+`;
+
+export function ITunesContainer({ maxwidth }) {
   return (
     <div>
-      <T id={'ITunesContainer text'} />
+      <CustomCard title="iTunes Search" maxwidth={maxwidth}>
+        <Search data-testid="search-bar" type="text" />
+      </CustomCard>
     </div>
   );
 }
 
-ITunesContainer.propTypes = {};
-
+ITunesContainer.propTypes = {
+  maxwidth: PropTypes.number
+};
+ITunesContainer.defaultProps = {
+  maxwidth: 500,
+  padding: 20
+};
 const mapStateToProps = createStructuredSelector({
   iTunesContainer: makeSelectITunesContainer()
 });
