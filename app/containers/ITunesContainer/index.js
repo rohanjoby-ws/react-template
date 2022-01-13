@@ -8,7 +8,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-
+import { debounce } from 'lodash';
 import styled from 'styled-components';
 import { injectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
@@ -27,10 +27,21 @@ const CustomCard = styled(Card)`
 `;
 
 export function ITunesContainer({ maxwidth }) {
+  const handleOnChange = (query) => {
+    //code to fetch song details
+  };
+
+  const debouncedHandleOnChange = debounce(handleOnChange, 200);
   return (
     <div>
       <CustomCard title="iTunes Search" maxwidth={maxwidth}>
-        <Search data-testid="search-bar" type="text" />
+        <Search
+          data-testid="search-bar"
+          type="text"
+          placeholder="search for music"
+          onChange={(evt) => debouncedHandleOnChange(evt.target.value)}
+          onSearch={(searchText) => debouncedHandleOnChange(searchText)}
+        />
       </CustomCard>
     </div>
   );
