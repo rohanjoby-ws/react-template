@@ -5,7 +5,7 @@ import { initialState } from './reducer';
  * Direct selector to the iTunesContainer state domain
  */
 
-const selectITunesContainerDomain = (state) => state.iTunesContainer || initialState;
+const selectITunesContainerDomain = () => initialState;
 
 const makeSelectITunesContainer = () => createSelector(selectITunesContainerDomain, (substate) => substate);
 

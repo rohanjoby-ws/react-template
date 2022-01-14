@@ -58,13 +58,7 @@ const mapStateToProps = createStructuredSelector({
   iTunesContainer: makeSelectITunesContainer()
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch
-  };
-}
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(mapStateToProps);
 
 export default compose(withConnect, memo, injectSaga({ key: 'iTunesContainer', saga: saga }))(ITunesContainer);
 
