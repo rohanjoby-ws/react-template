@@ -26,7 +26,7 @@ const CustomCard = styled(Card)`
   }
 `;
 
-export function ITunesContainer({ maxwidth }) {
+export function ITunesContainer({ maxwidth, intl }) {
   const handleOnChange = (query) => {
     //code to fetch song details
   };
@@ -34,11 +34,11 @@ export function ITunesContainer({ maxwidth }) {
   const debouncedHandleOnChange = debounce(handleOnChange, 200);
   return (
     <div>
-      <CustomCard title="iTunes Search" maxwidth={maxwidth}>
+      <CustomCard title={intl.formatMessage({ id: 'itunes_search' })} maxwidth={maxwidth}>
         <Search
           data-testid="search-bar"
           type="text"
-          placeholder="search for music"
+          placeholder={intl.formatMessage({ id: 'search_for_music' })}
           onChange={(evt) => debouncedHandleOnChange(evt.target.value)}
           onSearch={(searchText) => debouncedHandleOnChange(searchText)}
         />
@@ -48,7 +48,8 @@ export function ITunesContainer({ maxwidth }) {
 }
 
 ITunesContainer.propTypes = {
-  maxwidth: PropTypes.number
+  maxwidth: PropTypes.number,
+  intl: PropTypes.object
 };
 ITunesContainer.defaultProps = {
   maxwidth: 500,
@@ -60,6 +61,11 @@ const mapStateToProps = createStructuredSelector({
 
 const withConnect = connect(mapStateToProps);
 
-export default compose(withConnect, memo, injectSaga({ key: 'iTunesContainer', saga: saga }))(ITunesContainer);
+export default compose(
+  injectIntl,
+  withConnect,
+  memo,
+  injectSaga({ key: 'iTunesContainer', saga: saga })
+)(ITunesContainer);
 
 export const ITunesContainerTest = compose(injectIntl)(ITunesContainer);
