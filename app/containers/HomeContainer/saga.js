@@ -1,5 +1,5 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { getRepos } from '@services/iTunesApi';
+import { getRepos } from '@services/repoApi';
 import { homeContainerTypes, homeContainerCreators } from './reducer';
 
 const { REQUEST_GET_GITHUB_REPOS } = homeContainerTypes;
