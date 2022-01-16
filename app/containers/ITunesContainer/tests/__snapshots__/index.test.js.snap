@@ -17,7 +17,7 @@ exports[`<ITunesContainer /> container tests should render and match the snapsho
             <div
               class="ant-card-head-title"
             >
-              iTuns Search
+              iTunes Search
             </div>
           </div>
         </div>
