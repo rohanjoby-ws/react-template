@@ -1,15 +1,5 @@
 <testExecutions version="1">
-<file path="app/containers/ITunesContainer/tests/selectors.test.js">
-<testCase name="ITunesContainer selector tests should select the user state" duration="7" />
-</file>
-<file path="app/containers/ITunesContainer/tests/saga.test.js">
-<testCase name="ITunesContainer saga tests should start task to watch for DEFAULT_ACTION action" duration="4" />
-</file>
-<file path="app/containers/ITunesContainer/tests/reducer.test.js">
-<testCase name="ITunesContainer reducer tests should return the initial state" duration="10" />
-<testCase name="ITunesContainer reducer tests should return the update the state when an action of type DEFAULT is dispatched" duration="2" />
-</file>
 <file path="app/containers/ITunesContainer/tests/index.test.js">
-<testCase name="&lt;ITunesContainer /&gt; container tests should render and match the snapshot" duration="148" />
+<testCase name="&lt;ITunesContainer /&gt; container tests should render and match the snapshot" duration="91" />
 </file>
 </testExecutions>
