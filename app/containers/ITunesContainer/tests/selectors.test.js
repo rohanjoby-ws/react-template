@@ -5,7 +5,7 @@ describe('ITunesContainer selector tests', () => {
 
   beforeEach(() => {
     mockedState = {
-      iTunesContainer: {}
+      iTunesContainer: { searchQuery: null, iTunesData: {}, iTunesError: null }
     };
   });
   it('should select the user state', () => {

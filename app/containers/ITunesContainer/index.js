@@ -8,13 +8,14 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { debounce } from 'lodash';
+import { debounce, isEmpty } from 'lodash';
 import styled from 'styled-components';
 import { injectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Card, Input } from 'antd';
 import makeSelectITunesContainer from './selectors';
+import { iTunesContainerCreators } from './reducer';
 import saga from './saga';
 
 const { Search } = Input;
@@ -26,15 +27,19 @@ const CustomCard = styled(Card)`
   }
 `;
 
-export function ITunesContainer({ maxwidth, intl }) {
-  const handleOnChange = (query) => {
-    //code to fetch song details
+export function ITunesContainer({ dispatchITunesSongs, dispatchClearITunesSongs, intl, maxwidth }) {
+  const handleOnChange = (sQuery) => {
+    if (!isEmpty(sQuery)) {
+      dispatchITunesSongs(sQuery);
+    } else {
+      dispatchClearITunesSongs();
+    }
   };
 
   const debouncedHandleOnChange = debounce(handleOnChange, 200);
   return (
     <div>
-      <CustomCard title={intl.formatMessage({ id: 'itunes_search' })} maxwidth={maxwidth}>
+      <CustomCard title={intl.formatMessage({ id: 'iTunes_search' })} maxwidth={maxwidth}>
         <Search
           data-testid="search-bar"
           type="text"
@@ -48,6 +53,8 @@ export function ITunesContainer({ maxwidth, intl }) {
 }
 
 ITunesContainer.propTypes = {
+  dispatchITunesSongs: PropTypes.func,
+  dispatchClearITunesSongs: PropTypes.func,
   maxwidth: PropTypes.number,
   intl: PropTypes.object
 };
@@ -59,7 +66,14 @@ const mapStateToProps = createStructuredSelector({
   iTunesContainer: makeSelectITunesContainer()
 });
 
-const withConnect = connect(mapStateToProps);
+export function mapDispatchToProps(dispatch) {
+  const { requestGetITunesSongs, clearGetITunesSongs } = iTunesContainerCreators;
+  return {
+    dispatchITunesSongs: (searchQuery) => dispatch(requestGetITunesSongs(searchQuery)),
+    dispatchClearITunesSongs: () => dispatch(clearGetITunesSongs())
+  };
+}
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
   injectIntl,

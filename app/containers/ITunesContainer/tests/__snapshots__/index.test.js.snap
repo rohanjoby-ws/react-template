@@ -33,7 +33,7 @@ exports[`<ITunesContainer /> container tests should render and match the snapsho
               <input
                 class="ant-input"
                 data-testid="search-bar"
-                placeholder="search for music"
+                placeholder="searc for music..."
                 type="text"
                 value=""
               />
