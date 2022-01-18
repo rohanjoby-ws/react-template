@@ -21,7 +21,7 @@
   "collection-name": "Playing from: {name}",
   "track-name": "{name}",
   "artist-name": "{name}",
-  "track-price": "Price: Rs.{price}",
+  "track-price": "Price: ${price}",
   "genre-name": "Genre: {name}",
   "release": "Released on {date}"
 }

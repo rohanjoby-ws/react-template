@@ -9,7 +9,7 @@ describe('iTunesApi tests', () => {
     const itunesData = [
       {
         totalCount: 1,
-        items: [{ searchQuery }]
+        results: [{ searchQuery }]
       }
     ];
     mock.onGet(`/search?term=${searchQuery}`).reply(200, itunesData);
