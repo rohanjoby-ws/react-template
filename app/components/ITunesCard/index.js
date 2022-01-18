@@ -41,23 +41,15 @@ const CustomImg = styled.img`
   margin: 0.75rem auto;
 `;
 
-export function ITunesCard({
-  artistName,
-  trackName,
-  collectionName,
-  trackPrice,
-  primaryGenreName,
-  releaseDate,
-  previewUrl,
-  artworkUrl100,
-  onActionClick
-}) {
+export function ITunesCard({ track, onActionClick }) {
   const audioRef = useRef(null);
+  const { artistName, trackName, collectionName, trackPrice, primaryGenreName, previewUrl, artworkUrl100 } = track;
 
   const playerAction = {
     play: 'PLAY',
     pause: 'PAUSE'
   };
+
   const handleTrackPlay = (action) => {
     if (action === playerAction.play) {
       audioRef.current.play();
@@ -68,12 +60,11 @@ export function ITunesCard({
     }
   };
 
-  const text = <T id="details" type="heading" marginBottom={5} />;
+  const text = <T id="details" type="subheading" marginBottom={5} />;
   const content = (
     <>
       <T id="track-price" values={{ price: trackPrice }} />
       <T id="genre-name" values={{ name: primaryGenreName }} />
-      <T id="release" values={{ date: releaseDate }} />
     </>
   );
   return (
@@ -98,27 +89,8 @@ export function ITunesCard({
 }
 
 ITunesCard.propTypes = {
-  artistName: PropTypes.string,
-  trackName: PropTypes.string,
-  collectionName: PropTypes.string,
-  trackPrice: PropTypes.number,
-  primaryGenreName: PropTypes.string,
-  releaseDate: PropTypes.string,
-  previewUrl: PropTypes.string,
-  artworkUrl100: PropTypes.string,
+  track: PropTypes.object,
   onActionClick: PropTypes.func
-};
-ITunesCard.defaultProps = {
-  artistName: 'Mark Ronson',
-  trackName: 'Uptown Funk (feat. Bruno Mars)',
-  collectionName: 'Uptown Special',
-  trackPrice: 128,
-  primaryGenreName: 'Pop',
-  releaseDate: '13/01/2015',
-  previewUrl:
-    'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b9/0a/00/b90a0076-6ac1-0b1d-3693-ff106a79d906/mzaf_10894270267302036162.plus.aac.p.m4a',
-  artworkUrl100:
-    'https://is2-ssl.mzstatic.com/image/thumb/Music5/v4/22/a0/3e/22a03e12-0c97-b5fc-d693-c02186f6c79d/source/100x100bb.jpg'
 };
 
 export default ITunesCard;
