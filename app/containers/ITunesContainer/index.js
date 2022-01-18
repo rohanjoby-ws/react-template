@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -14,6 +14,7 @@ import { injectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Card, Input } from 'antd';
+import ITunesCard from '@app/components/ITunesCard';
 import makeSelectITunesContainer from './selectors';
 import { iTunesContainerCreators } from './reducer';
 import saga from './saga';
@@ -22,17 +23,38 @@ const { Search } = Input;
 
 const CustomCard = styled(Card)`
   && {
-    margin: 20px 0;
+    margin: 1.25rem 0;
     max-width: ${(props) => props.maxwidth};
+  }
+`;
+const Container = styled.div`
+  && {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+    padding: 1em;
   }
 `;
 
 export function ITunesContainer({ dispatchITunesSongs, dispatchClearITunesSongs, intl, maxwidth }) {
+  const [currentSongRef, setCurentSongRef] = useState(null);
+
   const handleOnChange = (sQuery) => {
     if (!isEmpty(sQuery)) {
       dispatchITunesSongs(sQuery);
     } else {
       dispatchClearITunesSongs();
+    }
+  };
+
+  const handleOnActionClick = (trackRef) => {
+    if (isEmpty(currentSongRef)) {
+      setCurentSongRef(trackRef);
+    } else {
+      if (trackRef !== currentSongRef) {
+        currentSongRef.current.pause();
+        setCurentSongRef(trackRef);
+      }
     }
   };
 
@@ -48,6 +70,11 @@ export function ITunesContainer({ dispatchITunesSongs, dispatchClearITunesSongs,
           onSearch={(searchText) => debouncedHandleOnChange(searchText)}
         />
       </CustomCard>
+      <Container data-testid="container">
+        <ITunesCard onActionClick={handleOnActionClick} />
+        <ITunesCard onActionClick={handleOnActionClick} />
+        <ITunesCard onActionClick={handleOnActionClick} />
+      </Container>
     </div>
   );
 }

@@ -15,5 +15,9 @@
   "repo_stars_unavailable": "Repository stars are unavaiable",
   "wednesday_solutions": "Wednesday Solutions",
   "iTunes_search": "iTunes Search",
-  "search_for_music": "searc for music..."
+  "search_for_music": "search for music...",
+  "songs": "Song",
+  "collection-name": "Playing from: {name}",
+  "track-name": "{name}",
+  "artist-name": "{name}"
 }
