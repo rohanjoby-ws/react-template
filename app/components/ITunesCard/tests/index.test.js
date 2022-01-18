@@ -10,98 +10,43 @@ import { renderWithIntl, timeout } from '@utils/testUtils';
 import ITunesCard from '../index';
 
 describe('<ITunesCard />', () => {
-  let artistName,
-    trackName,
-    collectionName,
-    trackPrice,
-    primaryGenreName,
-    releaseDate,
-    previewUrl,
-    artworkUrl100,
-    onActionClick;
+  let track, onActionClick;
 
   beforeEach(() => {
-    (artistName = 'Mark Ronson'),
-      (trackName = 'Uptown Funk'),
-      (collectionName = 'Uptown Special'),
-      (trackPrice = 128),
-      (primaryGenreName = 'Pop'),
-      (releaseDate = '13/01/2015'),
-      (previewUrl = 'preview-url'),
-      (artworkUrl100 = 'album-art-url'),
-      (onActionClick = jest.fn());
+    track = {
+      artistName: 'Mark Ronson',
+      trackName: 'Uptown Funk',
+      collectionName: 'Uptown Special',
+      trackPrice: 128,
+      primaryGenreName: 'Pop',
+      previewUrl: 'preview-url',
+      artworkUrl100: 'album-art-url'
+    };
+    onActionClick = jest.fn();
   });
 
   it('should render and match the snapshot', () => {
-    const { baseElement } = renderWithIntl(
-      <ITunesCard
-        artistName={artistName}
-        trackName={trackName}
-        collectionName={collectionName}
-        trackPrice={trackPrice}
-        primaryGenreName={primaryGenreName}
-        releaseDate={releaseDate}
-        previewUrl={previewUrl}
-        artworkUrl100={artworkUrl100}
-        onActionClick={onActionClick}
-      />
-    );
+    const { baseElement } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
     expect(baseElement).toMatchSnapshot();
   });
 
   it('should contain 1 ITunesCard component', () => {
-    const { getAllByTestId } = renderWithIntl(
-      <ITunesCard
-        artistName={artistName}
-        trackName={trackName}
-        collectionName={collectionName}
-        trackPrice={trackPrice}
-        primaryGenreName={primaryGenreName}
-        releaseDate={releaseDate}
-        previewUrl={previewUrl}
-        artworkUrl100={artworkUrl100}
-        onActionClick={onActionClick}
-      />
-    );
+    const { getAllByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
     expect(getAllByTestId('i-tunes-card').length).toBe(1);
   });
 
   it('should render the song details inside the card', () => {
-    const { getByTestId } = renderWithIntl(
-      <ITunesCard
-        artistName={artistName}
-        trackName={trackName}
-        collectionName={collectionName}
-        trackPrice={trackPrice}
-        primaryGenreName={primaryGenreName}
-        releaseDate={releaseDate}
-        previewUrl={previewUrl}
-        artworkUrl100={artworkUrl100}
-        onActionClick={onActionClick}
-      />
-    );
-    expect(getByTestId('collectionName')).toHaveTextContent(collectionName);
-    expect(getByTestId('trackName')).toHaveTextContent(trackName);
-    expect(getByTestId('artistName')).toHaveTextContent(artistName);
+    const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
+    expect(getByTestId('collectionName')).toHaveTextContent(track.collectionName);
+    expect(getByTestId('trackName')).toHaveTextContent(track.trackName);
+    expect(getByTestId('artistName')).toHaveTextContent(track.artistName);
   });
 
   it('should play/pause music when play/pause button is clicked', async () => {
     const pauseSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
     const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
 
-    const { getByTestId } = renderWithIntl(
-      <ITunesCard
-        artistName={artistName}
-        trackName={trackName}
-        collectionName={collectionName}
-        trackPrice={trackPrice}
-        primaryGenreName={primaryGenreName}
-        releaseDate={releaseDate}
-        previewUrl={previewUrl}
-        artworkUrl100={artworkUrl100}
-        onActionClick={onActionClick}
-      />
-    );
+    const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
     fireEvent.click(getByTestId('playButton'));
 
     await timeout(500);

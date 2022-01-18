@@ -68,6 +68,14 @@ describe('<ITunesContainer /> container tests', () => {
     expect(submitSpy).toBeCalledWith(searchQuery);
   });
 
+  it('should  dispatchiTunesSongs on update on mount if searchQuery is already persisted', async () => {
+    const searchQuery = 'Infinity';
+    renderProvider(<ITunesContainer searchQuery={searchQuery} iTunesData={null} dispatchITunesSongs={submitSpy} />);
+
+    await timeout(500);
+    expect(submitSpy).toBeCalledWith(searchQuery);
+  });
+
   it('should validate mapDispatchToProps actions', async () => {
     const dispatchITunesSongsSpy = jest.fn();
     const searchQuery = 'Infinity';
@@ -83,5 +91,49 @@ describe('<ITunesContainer /> container tests', () => {
     await timeout(500);
     props.dispatchClearITunesSongs();
     expect(dispatchITunesSongsSpy).toHaveBeenCalledWith(actions.dispatchClearITunesSongs);
+  });
+
+  it('should render the data when loading becomes false', () => {
+    const iTunesData = { totalCount: 1, results: [{ artistName: 'Jaymes Young' }] };
+    const { getByTestId } = renderProvider(<ITunesContainer iTunesData={iTunesData} dispatchITunesSongs={submitSpy} />);
+    expect(getByTestId('i-tunes-card')).toBeInTheDocument();
+  });
+
+  it('should render exact number of iTuneCards as per totalCount in result', () => {
+    const totalCount = 3;
+    const iTunesData = {
+      totalCount,
+      results: [
+        {
+          artistName: 'Mark Ronson',
+          trackName: 'Uptown Funk (feat. Bruno Mars)',
+          primaryGenreName: 'Pop'
+        },
+        {
+          artistName: 'Dynamix Music',
+          trackName: 'Uptown Funk',
+          primaryGenreName: 'Fitness & Workout'
+        },
+        {
+          artistName: 'Mark Ronson',
+          trackName: 'Uptown Funk (feat. Bruno Mars)',
+          primaryGenreName: 'Pop'
+        }
+      ]
+    };
+    const { getAllByTestId } = renderProvider(
+      <ITunesContainer iTunesData={iTunesData} dispatchITunesSongs={submitSpy} />
+    );
+    expect(getAllByTestId('i-tunes-card').length).toBe(totalCount);
+  });
+
+  it('should render Skeleton Comp when "loading" is true', async () => {
+    const searchQuery = 'Infinity';
+    const { getByTestId, baseElement } = renderProvider(
+      <ITunesContainer dispatchITunesSongs={submitSpy} searchQuery={searchQuery} />
+    );
+    fireEvent.change(getByTestId('search-bar'), { target: { value: searchQuery } });
+    await timeout(500);
+    expect(baseElement.getElementsByClassName('ant-skeleton').length).toBe(1);
   });
 });
