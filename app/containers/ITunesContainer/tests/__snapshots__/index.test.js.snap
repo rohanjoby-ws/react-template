@@ -95,7 +95,7 @@ exports[`<ITunesContainer /> container tests should render and match the snapsho
               class="ITunesCard__Wrapper-plw8mc-1 kevQCZ"
             >
               <button
-                class="ITunesCard__CustomButton-plw8mc-2 jVsQdr"
+                class="ITunesCard__CustomButton-plw8mc-2 dydca-D"
                 data-testid="playButton"
               >
                 <span
@@ -123,7 +123,7 @@ exports[`<ITunesContainer /> container tests should render and match the snapsho
                 </span>
               </button>
               <button
-                class="ITunesCard__CustomButton-plw8mc-2 jVsQdr"
+                class="ITunesCard__CustomButton-plw8mc-2 dydca-D"
                 data-testid="pauseButton"
               >
                 <span
@@ -188,7 +188,7 @@ exports[`<ITunesContainer /> container tests should render and match the snapsho
               class="ITunesCard__Wrapper-plw8mc-1 kevQCZ"
             >
               <button
-                class="ITunesCard__CustomButton-plw8mc-2 jVsQdr"
+                class="ITunesCard__CustomButton-plw8mc-2 dydca-D"
                 data-testid="playButton"
               >
                 <span
@@ -216,7 +216,7 @@ exports[`<ITunesContainer /> container tests should render and match the snapsho
                 </span>
               </button>
               <button
-                class="ITunesCard__CustomButton-plw8mc-2 jVsQdr"
+                class="ITunesCard__CustomButton-plw8mc-2 dydca-D"
                 data-testid="pauseButton"
               >
                 <span
@@ -281,7 +281,7 @@ exports[`<ITunesContainer /> container tests should render and match the snapsho
               class="ITunesCard__Wrapper-plw8mc-1 kevQCZ"
             >
               <button
-                class="ITunesCard__CustomButton-plw8mc-2 jVsQdr"
+                class="ITunesCard__CustomButton-plw8mc-2 dydca-D"
                 data-testid="playButton"
               >
                 <span
@@ -309,7 +309,7 @@ exports[`<ITunesContainer /> container tests should render and match the snapsho
                 </span>
               </button>
               <button
-                class="ITunesCard__CustomButton-plw8mc-2 jVsQdr"
+                class="ITunesCard__CustomButton-plw8mc-2 dydca-D"
                 data-testid="pauseButton"
               >
                 <span

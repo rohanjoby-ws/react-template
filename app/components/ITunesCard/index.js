@@ -8,7 +8,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import 'antd/dist/antd.css';
-import { Card } from 'antd';
+import { Card, Popover } from 'antd';
 import { PlayCircleOutlined, PauseCircleOutlined } from '@ant-design/icons';
 import T from '@components/T';
 import { colors } from '@app/themes/index';
@@ -33,6 +33,7 @@ const CustomButton = styled.button`
   background-color: ${colors.buttonBg};
   border: none;
   border-radius: 0.2em;
+  cursor: pointer;
 `;
 const CustomImg = styled.img`
   display: block;
@@ -40,7 +41,17 @@ const CustomImg = styled.img`
   margin: 0.75rem auto;
 `;
 
-export function ITunesCard({ artistName, trackName, collectionName, previewUrl, artworkUrl100, onActionClick }) {
+export function ITunesCard({
+  artistName,
+  trackName,
+  collectionName,
+  trackPrice,
+  primaryGenreName,
+  releaseDate,
+  previewUrl,
+  artworkUrl100,
+  onActionClick
+}) {
   const audioRef = useRef(null);
 
   const playerAction = {
@@ -57,10 +68,20 @@ export function ITunesCard({ artistName, trackName, collectionName, previewUrl, 
     }
   };
 
+  const text = <T id="details" type="heading" marginBottom={5} />;
+  const content = (
+    <>
+      <T id="track-price" values={{ price: trackPrice }} />
+      <T id="genre-name" values={{ name: primaryGenreName }} />
+      <T id="release" values={{ date: releaseDate }} />
+    </>
+  );
   return (
     <CustomCard data-testid="i-tunes-card">
       <T data-testid="collectionName" id="collection-name" values={{ name: collectionName }} />
-      <CustomImg src={artworkUrl100} alt="artwork" />
+      <Popover placement="topRight" title={text} content={content}>
+        <CustomImg src={artworkUrl100} alt="artwork" />
+      </Popover>
       <Wrapper>
         <CustomButton data-testid="playButton" onClick={() => handleTrackPlay(playerAction.play)}>
           <PlayCircleOutlined style={{ fontSize: '20px' }} />
@@ -80,6 +101,9 @@ ITunesCard.propTypes = {
   artistName: PropTypes.string,
   trackName: PropTypes.string,
   collectionName: PropTypes.string,
+  trackPrice: PropTypes.number,
+  primaryGenreName: PropTypes.string,
+  releaseDate: PropTypes.string,
   previewUrl: PropTypes.string,
   artworkUrl100: PropTypes.string,
   onActionClick: PropTypes.func
@@ -88,6 +112,9 @@ ITunesCard.defaultProps = {
   artistName: 'Mark Ronson',
   trackName: 'Uptown Funk (feat. Bruno Mars)',
   collectionName: 'Uptown Special',
+  trackPrice: 128,
+  primaryGenreName: 'Pop',
+  releaseDate: '13/01/2015',
   previewUrl:
     'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b9/0a/00/b90a0076-6ac1-0b1d-3693-ff106a79d906/mzaf_10894270267302036162.plus.aac.p.m4a',
   artworkUrl100:

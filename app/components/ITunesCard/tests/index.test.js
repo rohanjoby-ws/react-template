@@ -10,15 +10,26 @@ import { renderWithIntl, timeout } from '@utils/testUtils';
 import ITunesCard from '../index';
 
 describe('<ITunesCard />', () => {
-  let artistName, trackName, collectionName, previewUrl, artworkUrl100, onActionClick;
+  let artistName,
+    trackName,
+    collectionName,
+    trackPrice,
+    primaryGenreName,
+    releaseDate,
+    previewUrl,
+    artworkUrl100,
+    onActionClick;
 
   beforeEach(() => {
     (artistName = 'Mark Ronson'),
       (trackName = 'Uptown Funk'),
       (collectionName = 'Uptown Special'),
-      (previewUrl = 'preview-url');
-    artworkUrl100 = 'album-art-url';
-    onActionClick = jest.fn();
+      (trackPrice = 128),
+      (primaryGenreName = 'Pop'),
+      (releaseDate = '13/01/2015'),
+      (previewUrl = 'preview-url'),
+      (artworkUrl100 = 'album-art-url'),
+      (onActionClick = jest.fn());
   });
 
   it('should render and match the snapshot', () => {
@@ -27,6 +38,9 @@ describe('<ITunesCard />', () => {
         artistName={artistName}
         trackName={trackName}
         collectionName={collectionName}
+        trackPrice={trackPrice}
+        primaryGenreName={primaryGenreName}
+        releaseDate={releaseDate}
         previewUrl={previewUrl}
         artworkUrl100={artworkUrl100}
         onActionClick={onActionClick}
@@ -41,6 +55,9 @@ describe('<ITunesCard />', () => {
         artistName={artistName}
         trackName={trackName}
         collectionName={collectionName}
+        trackPrice={trackPrice}
+        primaryGenreName={primaryGenreName}
+        releaseDate={releaseDate}
         previewUrl={previewUrl}
         artworkUrl100={artworkUrl100}
         onActionClick={onActionClick}
@@ -55,6 +72,9 @@ describe('<ITunesCard />', () => {
         artistName={artistName}
         trackName={trackName}
         collectionName={collectionName}
+        trackPrice={trackPrice}
+        primaryGenreName={primaryGenreName}
+        releaseDate={releaseDate}
         previewUrl={previewUrl}
         artworkUrl100={artworkUrl100}
         onActionClick={onActionClick}
@@ -74,6 +94,9 @@ describe('<ITunesCard />', () => {
         artistName={artistName}
         trackName={trackName}
         collectionName={collectionName}
+        trackPrice={trackPrice}
+        primaryGenreName={primaryGenreName}
+        releaseDate={releaseDate}
         previewUrl={previewUrl}
         artworkUrl100={artworkUrl100}
         onActionClick={onActionClick}

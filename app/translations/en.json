@@ -17,7 +17,11 @@
   "iTunes_search": "iTunes Search",
   "search_for_music": "search for music...",
   "songs": "Song",
+  "details": "More details",
   "collection-name": "Playing from: {name}",
   "track-name": "{name}",
-  "artist-name": "{name}"
+  "artist-name": "{name}",
+  "track-price": "Price: Rs.{price}",
+  "genre-name": "Genre: {name}",
+  "release": "Released on {date}"
 }
