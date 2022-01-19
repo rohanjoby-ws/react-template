@@ -8,20 +8,13 @@ import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { renderWithIntl, timeout } from '@utils/testUtils';
 import ITunesCard from '../index';
+import { mockData } from './mockData';
 
 describe('<ITunesCard />', () => {
   let track, onActionClick;
 
   beforeEach(() => {
-    track = {
-      artistName: 'Mark Ronson',
-      trackName: 'Uptown Funk',
-      collectionName: 'Uptown Special',
-      trackPrice: 128,
-      primaryGenreName: 'Pop',
-      previewUrl: 'preview-url',
-      artworkUrl100: 'album-art-url'
-    };
+    track = mockData;
     onActionClick = jest.fn();
   });
 
@@ -32,7 +25,7 @@ describe('<ITunesCard />', () => {
 
   it('should contain 1 ITunesCard component', () => {
     const { getAllByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
-    expect(getAllByTestId('i-tunes-card').length).toBe(1);
+    expect(getAllByTestId('itunes-card').length).toBe(1);
   });
 
   it('should render the song details inside the card', () => {
@@ -47,15 +40,15 @@ describe('<ITunesCard />', () => {
     const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
 
     const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
-    fireEvent.click(getByTestId('playButton'));
+    fireEvent.click(getByTestId('play-button'));
 
-    await timeout(500);
+    await timeout(1000);
     expect(playSpy).toHaveBeenCalledTimes(1);
     expect(pauseSpy).toHaveBeenCalledTimes(0);
 
-    fireEvent.click(getByTestId('pauseButton'));
+    fireEvent.click(getByTestId('pause-button'));
 
-    await timeout(500);
+    await timeout(1000);
     expect(pauseSpy).toHaveBeenCalledTimes(1);
   });
 });
