@@ -8,6 +8,7 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { timeout, renderProvider } from '@utils/testUtils';
+import { translate } from '@app/components/IntlGlobalProvider';
 import { ITunesContainerTest as ITunesContainer, mapDispatchToProps } from '../index';
 import { iTunesContainerTypes } from '../reducer';
 
@@ -93,14 +94,21 @@ describe('<ITunesContainer /> container tests', () => {
     expect(dispatchITunesSongsSpy).toHaveBeenCalledWith(actions.dispatchClearITunesSongs);
   });
 
+  it('should render default error message when search goes wrong', () => {
+    const defaultError = translate('something_went_wrong');
+    const { getByTestId } = renderProvider(<ITunesContainer iTunesError={defaultError} />);
+    expect(getByTestId('error-message')).toBeInTheDocument();
+    expect(getByTestId('error-message').textContent).toBe(defaultError);
+  });
+
   it('should render the data when loading becomes false', () => {
     const iTunesData = { totalCount: 1, results: [{ artistName: 'Jaymes Young' }] };
     const { getByTestId } = renderProvider(<ITunesContainer iTunesData={iTunesData} dispatchITunesSongs={submitSpy} />);
-    expect(getByTestId('i-tunes-card')).toBeInTheDocument();
+    expect(getByTestId('for')).toBeInTheDocument();
   });
 
   it('should render exact number of iTuneCards as per totalCount in result', () => {
-    const totalCount = 3;
+    const totalCount = 2;
     const iTunesData = {
       totalCount,
       results: [
@@ -113,18 +121,13 @@ describe('<ITunesContainer /> container tests', () => {
           artistName: 'Dynamix Music',
           trackName: 'Uptown Funk',
           primaryGenreName: 'Fitness & Workout'
-        },
-        {
-          artistName: 'Mark Ronson',
-          trackName: 'Uptown Funk (feat. Bruno Mars)',
-          primaryGenreName: 'Pop'
         }
       ]
     };
     const { getAllByTestId } = renderProvider(
       <ITunesContainer iTunesData={iTunesData} dispatchITunesSongs={submitSpy} />
     );
-    expect(getAllByTestId('i-tunes-card').length).toBe(totalCount);
+    expect(getAllByTestId('itunes-card').length).toBe(totalCount);
   });
 
   it('should render Skeleton Comp when "loading" is true', async () => {

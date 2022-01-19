@@ -70,9 +70,33 @@ exports[`<ITunesContainer /> container tests should render and match the snapsho
         </div>
       </div>
       <div
-        class="ITunesContainer__Container-lb7bgf-1 eMnmFo"
-        data-testid="container"
-      />
+        class="ant-card ant-card-bordered ITunesContainer__CustomCard-lb7bgf-0 fbVrQx"
+        color="grey"
+      >
+        <div
+          class="ant-card-head"
+        >
+          <div
+            class="ant-card-head-wrapper"
+          >
+            <div
+              class="ant-card-head-title"
+            >
+              Search Results
+            </div>
+          </div>
+        </div>
+        <div
+          class="ant-card-body"
+        >
+          <p
+            class="T__StyledText-gjlic1-0 kYcyRq"
+            data-testid="default-message"
+          >
+            Search for a song by entering it's name in the search box
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </body>
