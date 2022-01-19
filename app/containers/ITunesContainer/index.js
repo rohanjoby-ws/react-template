@@ -14,8 +14,11 @@ import { injectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Card, Input, Skeleton } from 'antd';
+import If from '@app/components/If';
+import T from '@app/components/T';
+import For from '@app/components/For';
 import ITunesCard from '@app/components/ITunesCard';
-import { selectITunesContainer, selectITunesSearchQuery, selectITunesData, selectITunesError } from './selectors';
+import { selectITunesSearchQuery, selectITunesData, selectITunesError } from './selectors';
 import { iTunesContainerCreators } from './reducer';
 import saga from './saga';
 
@@ -49,11 +52,11 @@ export function ITunesContainer({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const loaded = get(iTunesData, 'results', null) || iTunesError;
+    const loaded = get(iTunesData, 'results', iTunesError);
     if (loaded) {
       setLoading(false);
     }
-  }, [iTunesData]);
+  }, [iTunesData, iTunesError]);
 
   useEffect(() => {
     if (searchQuery && !iTunesData?.results?.length) {
@@ -65,6 +68,7 @@ export function ITunesContainer({
   const handleOnChange = (sQuery) => {
     if (!isEmpty(sQuery)) {
       dispatchITunesSongs(sQuery);
+      setLoading(true);
     } else {
       dispatchClearITunesSongs();
     }
@@ -83,6 +87,52 @@ export function ITunesContainer({
 
   const debouncedHandleOnChange = debounce(handleOnChange, 200);
 
+  const renderTrackDetails = () => {
+    const items = get(iTunesData, 'results', []);
+    const totalCount = get(iTunesData, 'resultCount', 0);
+    return (
+      <If condition={!isEmpty(items) || loading}>
+        <CustomCard>
+          <Skeleton loading={loading} active>
+            <If condition={!isEmpty(searchQuery)}>
+              <div>
+                <T id="search_term" values={{ searchQuery }} />
+              </div>
+            </If>
+            <If condition={totalCount !== 0}>
+              <div>
+                <T id="matching_tracks" values={{ totalCount }} />
+              </div>
+            </If>
+            <For
+              of={items}
+              ParentComponent={Container}
+              renderItem={(item, index) => <ITunesCard key={index} onActionClick={handleOnActionClick} track={item} />}
+            />
+          </Skeleton>
+        </CustomCard>
+      </If>
+    );
+  };
+  const renderErrorState = () => {
+    let iTuneError;
+    if (iTunesError) {
+      iTuneError = iTunesError;
+    } else if (isEmpty(searchQuery)) {
+      iTuneError = 'itune_search_default';
+    }
+    return (
+      !loading &&
+      iTuneError && (
+        <CustomCard color={iTunesError ? 'red' : 'grey'} title={intl.formatMessage({ id: 'itune_grid' })}>
+          <If condition={iTunesError} otherwise={<T data-testid="default-message" id={iTuneError} />}>
+            <T data-testid="error-message" text={iTunesError} />
+          </If>
+        </CustomCard>
+      )
+    );
+  };
+
   return (
     <div>
       <CustomCard title={intl.formatMessage({ id: 'iTunes_search' })} maxwidth={maxwidth}>
@@ -94,12 +144,8 @@ export function ITunesContainer({
           onSearch={(searchText) => debouncedHandleOnChange(searchText)}
         />
       </CustomCard>
-      <Skeleton loading={loading} active></Skeleton>
-      <Container data-testid="container">
-        {iTunesData?.results?.map((songDetails, index) => (
-          <ITunesCard onActionClick={handleOnActionClick} track={songDetails} key={index} />
-        ))}
-      </Container>
+      {renderTrackDetails()}
+      {renderErrorState()}
     </div>
   );
 }
@@ -123,7 +169,6 @@ ITunesContainer.defaultProps = {
   iTunesError: null
 };
 const mapStateToProps = createStructuredSelector({
-  iTunesContainer: selectITunesContainer(),
   searchQuery: selectITunesSearchQuery(),
   iTunesData: selectITunesData(),
   iTunesError: selectITunesError()

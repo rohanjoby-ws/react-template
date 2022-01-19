@@ -23,5 +23,9 @@
   "artist-name": "{name}",
   "track-price": "Price: ${price}",
   "genre-name": "Genre: {name}",
-  "release": "Released on {date}"
+  "release": "Released on {date}",
+  "itune_search_default": "Search for a song by entering it's name in the search box",
+  "itune_grid": "Search Results",
+  "search_term": "Search query: {searchQuery}",
+  "matching_tracks": "Total number of matching songs: {totalCount}"
 }
