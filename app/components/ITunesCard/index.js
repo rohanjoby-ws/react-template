@@ -7,9 +7,9 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import 'antd/dist/antd.css';
-import { Card, Popover } from 'antd';
-import { PlayCircleOutlined, PauseCircleOutlined } from '@ant-design/icons';
+import truncate from 'lodash/truncate';
+import { Card, Popover, Tooltip, Button } from 'antd';
+import { PlayCircleOutlined, PauseCircleOutlined, LinkOutlined } from '@ant-design/icons';
 import T from '@components/T';
 import { colors } from '@app/themes/index';
 import { PLAY, PAUSE } from '@utils/constants';
@@ -27,15 +27,6 @@ const Wrapper = styled.div`
   margin-bottom: 0.75rem;
   gap: 1em;
 `;
-const CustomButton = styled.button`
-  displaty: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${colors.buttonBg};
-  border: none;
-  border-radius: 0.2em;
-  cursor: pointer;
-`;
 const CustomImg = styled.img`
   display: block;
   width: 45%;
@@ -49,11 +40,11 @@ export function ITunesCard({ track, onActionClick }) {
   const handleTrackPlay = (action) => {
     if (action === PLAY) {
       audioRef.current.play();
-      onActionClick(audioRef);
     }
     if (action === PAUSE) {
       audioRef.current.pause();
     }
+    onActionClick(audioRef);
   };
 
   const text = <T id="details" type="subheading" marginBottom={5} />;
@@ -64,28 +55,49 @@ export function ITunesCard({ track, onActionClick }) {
     </>
   );
   return (
-    <CustomCard data-testid="i-tunes-card">
-      <T data-testid="collectionName" id="collection-name" values={{ name: collectionName }} />
+    <CustomCard data-testid="itunes-card">
+      <T
+        data-testid="collectionName"
+        id="collection-name"
+        values={{ name: truncate(collectionName, { length: 28 }) }}
+      />
       <Popover placement="topRight" title={text} content={content}>
         <CustomImg src={artworkUrl100} alt="artwork" />
       </Popover>
       <Wrapper>
-        <CustomButton data-testid="playButton" onClick={() => handleTrackPlay(PLAY)}>
+        <Button data-testid="play-button" onClick={() => handleTrackPlay(PLAY)} type="text">
           <PlayCircleOutlined style={{ fontSize: '20px' }} />
-        </CustomButton>
-        <CustomButton data-testid="pauseButton" onClick={() => handleTrackPlay(PAUSE)}>
+        </Button>
+        <Button data-testid="pause-button" onClick={() => handleTrackPlay(PAUSE)} type="text">
           <PauseCircleOutlined style={{ fontSize: '20px' }} />
-        </CustomButton>
+        </Button>
       </Wrapper>
       <audio data-testid="audioElement" ref={audioRef} src={previewUrl} onClick={handleTrackPlay} />
-      <T data-testid="trackName" id="track-name" values={{ name: trackName }} type="subheading" marginBottom={5} />
-      <T data-testid="artistName" id="artist-name" values={{ name: artistName }} />
+      <T
+        data-testid="trackName"
+        id="track-name"
+        values={{ name: truncate(trackName, { length: 28 }) }}
+        type="subheading"
+        marginBottom={5}
+      />
+      <T data-testid="artistName" id="artist-name" values={{ name: truncate(artistName, { length: 35 }) }} />
+      <Tooltip key="artistViewUrl" title="View Artist">
+        <Button type="link" target="_blank" href={track?.artistViewUrl} icon={<LinkOutlined />}></Button>
+      </Tooltip>
+      ,
+      <Tooltip key="trackViewUrl" title="View Track">
+        <Button type="link" target="_blank" href={track?.trackViewUrl} icon={<LinkOutlined />}></Button>
+      </Tooltip>
+      ,
+      <Tooltip key="collectionViewUrl" title="View Collection">
+        <Button type="link" target="_blank" href={track?.collectionViewUrl} icon={<LinkOutlined />}></Button>
+      </Tooltip>
     </CustomCard>
   );
 }
 
 ITunesCard.propTypes = {
-  track: PropTypes.object,
+  track: PropTypes.object.isRequired,
   onActionClick: PropTypes.func
 };
 
