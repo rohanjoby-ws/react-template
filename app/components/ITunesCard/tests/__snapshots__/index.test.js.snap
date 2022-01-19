@@ -22,7 +22,7 @@ exports[`<ITunesCard /> should render and match the snapshot 1`] = `
           src="album-art-url"
         />
         <div
-          class="ITunesCard__Wrapper-plw8mc-1 kevQCZ"
+          class="ITunesCard__Wrapper-plw8mc-1 lgUfLz"
         >
           <button
             class="ITunesCard__CustomButton-plw8mc-2 dydca-D"

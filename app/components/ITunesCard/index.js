@@ -12,6 +12,7 @@ import { Card, Popover } from 'antd';
 import { PlayCircleOutlined, PauseCircleOutlined } from '@ant-design/icons';
 import T from '@components/T';
 import { colors } from '@app/themes/index';
+import { PLAY, PAUSE } from '@utils/constants';
 
 const CustomCard = styled(Card)`
   && {
@@ -21,7 +22,7 @@ const CustomCard = styled(Card)`
 `;
 const Wrapper = styled.div`
   display: flex;
-  alig-items: center;
+  align-items: center;
   justify-content: center;
   margin-bottom: 0.75rem;
   gap: 1em;
@@ -45,17 +46,12 @@ export function ITunesCard({ track, onActionClick }) {
   const audioRef = useRef(null);
   const { artistName, trackName, collectionName, trackPrice, primaryGenreName, previewUrl, artworkUrl100 } = track;
 
-  const playerAction = {
-    play: 'PLAY',
-    pause: 'PAUSE'
-  };
-
   const handleTrackPlay = (action) => {
-    if (action === playerAction.play) {
+    if (action === PLAY) {
       audioRef.current.play();
       onActionClick(audioRef);
     }
-    if (action === playerAction.pause) {
+    if (action === PAUSE) {
       audioRef.current.pause();
     }
   };
@@ -74,10 +70,10 @@ export function ITunesCard({ track, onActionClick }) {
         <CustomImg src={artworkUrl100} alt="artwork" />
       </Popover>
       <Wrapper>
-        <CustomButton data-testid="playButton" onClick={() => handleTrackPlay(playerAction.play)}>
+        <CustomButton data-testid="playButton" onClick={() => handleTrackPlay(PLAY)}>
           <PlayCircleOutlined style={{ fontSize: '20px' }} />
         </CustomButton>
-        <CustomButton data-testid="pauseButton" onClick={() => handleTrackPlay(playerAction.pause)}>
+        <CustomButton data-testid="pauseButton" onClick={() => handleTrackPlay(PAUSE)}>
           <PauseCircleOutlined style={{ fontSize: '20px' }} />
         </CustomButton>
       </Wrapper>
