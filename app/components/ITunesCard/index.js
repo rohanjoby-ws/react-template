@@ -9,8 +9,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import truncate from 'lodash/truncate';
 import { isEmpty } from 'lodash';
-import { Card, Popover, Tooltip, Button } from 'antd';
-import { LinkOutlined } from '@ant-design/icons';
+import { Card, Popover } from 'antd';
 import T from '@components/T';
 import If from '@components/If';
 import { colors } from '@app/themes';
@@ -32,71 +31,60 @@ const CustomImg = styled.img`
 
 export function ITunesCard({ track, onActionClick }) {
   const audioRef = useRef(null);
-  const {
-    artistName,
-    trackName,
-    collectionName,
-    trackPrice,
-    primaryGenreName,
-    previewUrl,
-    artworkUrl100,
-    artistViewUrl,
-    collectionViewUrl,
-    trackViewUrl
-  } = track;
 
   const text = <T id="details" type="subheading" marginBottom={5} />;
   const content = (
     <>
-      <If condition={trackPrice}>
-        <T id="track-price" values={{ price: trackPrice }} />
+      <If condition={track?.trackPrice} otherwise={<T data-testid="price-unavailable" id="track_price_unavailable" />}>
+        <T id="track-price" values={{ price: track?.trackPrice }} />
       </If>
-      <If condition={!isEmpty(primaryGenreName)}>
-        <T id="genre-name" values={{ name: primaryGenreName }} />
+      <If
+        condition={!isEmpty(track?.primaryGenreName)}
+        otherwise={<T data-testid="genre-unavailable" id="track_genre_unavailable" />}
+      >
+        <T id="genre-name" values={{ name: track?.primaryGenreName }} />
       </If>
     </>
   );
   return (
     <CustomCard data-testid="itunes-card">
-      <T
-        data-testid="collectionName"
-        id="collection-name"
-        values={{ name: truncate(collectionName, { length: 28 }) }}
-      />
+      <If
+        condition={!isEmpty(track?.collectionName)}
+        otherwise={<T data-testid="collection-unavailable" id="collection_name_unavailable" />}
+      >
+        <T
+          data-testid="collectionName"
+          id="collection-name"
+          values={{ name: truncate(track?.collectionName, { length: 28 }) }}
+        />
+      </If>
       <Popover placement="topRight" title={text} content={content}>
-        <CustomImg src={artworkUrl100} alt="artwork" />
+        <CustomImg src={track.artworkUrl100} alt="artwork" />
       </Popover>
       <CustomAudio
         data-testid="audio-element"
         controls
         ref={audioRef}
-        src={previewUrl}
+        src={track.previewUrl}
         onPlay={() => onActionClick(audioRef)}
       />
-      <T
-        data-testid="trackName"
-        id="track-name"
-        values={{ name: truncate(trackName, { length: 28 }) }}
-        type="subheading"
-        marginBottom={5}
-      />
-      <T data-testid="artistName" id="artist-name" values={{ name: truncate(artistName, { length: 35 }) }} />
-      <If condition={!isEmpty(artistViewUrl)}>
-        <Tooltip key="artistViewUrl" title="View Artist">
-          <Button type="link" target="_blank" href={track?.artistViewUrl} icon={<LinkOutlined />}></Button>
-        </Tooltip>
+      <If
+        condition={!isEmpty(track?.trackName)}
+        otherwise={<T data-testid="track-unavailable" id="track_name_unavailable" />}
+      >
+        <T
+          data-testid="trackName"
+          id="track-name"
+          values={{ name: truncate(track?.trackName, { length: 28 }) }}
+          type="subheading"
+          marginBottom={5}
+        />
       </If>
-      ,
-      <If condition={!isEmpty(trackViewUrl)}>
-        <Tooltip key="trackViewUrl" title="View Track">
-          <Button type="link" target="_blank" href={track?.trackViewUrl} icon={<LinkOutlined />}></Button>
-        </Tooltip>
-      </If>
-      ,
-      <If condition={!isEmpty(collectionViewUrl)}>
-        <Tooltip key="collectionViewUrl" title="View Collection">
-          <Button type="link" target="_blank" href={track?.collectionViewUrl} icon={<LinkOutlined />}></Button>
-        </Tooltip>
+      <If
+        condition={!isEmpty(track?.artistName)}
+        otherwise={<T data-testid="artist-unavailable" id="artist_unavailable" />}
+      >
+        <T data-testid="artistName" id="artist-name" values={{ name: truncate(track?.artistName, { length: 35 }) }} />
       </If>
     </CustomCard>
   );

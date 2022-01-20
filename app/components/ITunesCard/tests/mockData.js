@@ -5,8 +5,5 @@ export const mockData = {
   trackPrice: 128,
   primaryGenreName: 'Pop',
   previewUrl: 'preview-url',
-  artworkUrl100: 'album-art-url',
-  artistViewUrl: 'artist-url',
-  trackViewUrl: 'track-url',
-  collectionViewUrl: 'collecion-url'
+  artworkUrl100: 'album-art-url'
 };
