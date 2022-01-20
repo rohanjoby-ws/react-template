@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ITunesCard /> should render and match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="ant-card ant-card-bordered ItunesCard__CustomCard-sijrgi-0 gYoQRp"
+      data-testid="itunes-card"
+    >
+      <div
+        class="ant-card-body"
+      >
+        <p
+          class="T__StyledText-gjlic1-0 kYcyRq"
+          data-testid="collectionName"
+        >
+          Playing from: Uptown Special
+        </p>
+        <img
+          alt="artwork"
+          class="ItunesCard__CustomImg-sijrgi-2 cvttmU"
+          src="album-art-url"
+        />
+        <audio
+          class="ItunesCard__CustomAudio-sijrgi-1 jjVYHq"
+          controls=""
+          data-testid="audio-element"
+          src="preview-url"
+        />
+        <p
+          class="T__StyledText-gjlic1-0 liNLPV"
+          data-testid="trackName"
+        >
+          Uptown Funk
+        </p>
+        <p
+          class="T__StyledText-gjlic1-0 kYcyRq"
+          data-testid="artistName"
+        >
+          Mark Ronson
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+`;
