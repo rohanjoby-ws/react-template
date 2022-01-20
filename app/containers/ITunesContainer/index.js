@@ -48,7 +48,7 @@ export function ITunesContainer({
   intl,
   maxwidth
 }) {
-  const [currentSongRef, setCurentSongRef] = useState(null);
+  const [currentSongRef, setCurentSongRef] = useState();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -75,14 +75,10 @@ export function ITunesContainer({
   };
 
   const handleOnActionClick = (trackRef) => {
-    if (isEmpty(currentSongRef)) {
-      setCurentSongRef(trackRef);
-    } else {
-      if (trackRef !== currentSongRef) {
-        currentSongRef.current.pause();
-        setCurentSongRef(trackRef);
-      }
+    if (!isEmpty(currentSongRef) && trackRef !== currentSongRef) {
+      currentSongRef?.current?.pause();
     }
+    setCurentSongRef(trackRef);
   };
 
   const debouncedHandleOnChange = debounce(handleOnChange, 200);
@@ -124,29 +120,25 @@ export function ITunesContainer({
     return (
       !loading &&
       iTuneError && (
-        <CustomCard color={iTunesError ? 'red' : 'grey'} title={intl.formatMessage({ id: 'itune_grid' })}>
-          <If condition={iTunesError} otherwise={<T data-testid="default-message" id={iTuneError} />}>
-            <T data-testid="error-message" text={iTunesError} />
-          </If>
-        </CustomCard>
+        <If condition={iTunesError} otherwise={<T data-testid="default-message" id={iTuneError} />}>
+          <T data-testid="error-message" text={iTunesError} />
+        </If>
       )
     );
   };
 
   return (
-    <div>
-      <CustomCard title={intl.formatMessage({ id: 'iTunes_search' })} maxwidth={maxwidth}>
-        <Search
-          data-testid="search-bar"
-          type="text"
-          placeholder={intl.formatMessage({ id: 'search_for_music' })}
-          onChange={(evt) => debouncedHandleOnChange(evt.target.value)}
-          onSearch={(searchText) => debouncedHandleOnChange(searchText)}
-        />
-      </CustomCard>
+    <CustomCard title={intl.formatMessage({ id: 'iTunes_search' })} maxwidth={maxwidth}>
+      <Search
+        data-testid="search-bar"
+        type="text"
+        placeholder={intl.formatMessage({ id: 'search_for_music' })}
+        onChange={(evt) => debouncedHandleOnChange(evt.target.value)}
+        onSearch={(searchText) => debouncedHandleOnChange(searchText)}
+      />
       {renderTrackDetails()}
       {renderErrorState()}
-    </div>
+    </CustomCard>
   );
 }
 
