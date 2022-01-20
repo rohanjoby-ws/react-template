@@ -37,7 +37,7 @@ describe('<ITunesCard />', () => {
 
   it('should play/pause music when play/pause button is clicked', async () => {
     const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
-    fireEvent.play(getByTestId('itunes-card').querySelector('audio'));
+    fireEvent.play(getByTestId('audio-element'));
     expect(onActionClick).toBeCalled();
 
     await timeout(500);
