@@ -7,13 +7,26 @@ import produce from 'immer';
 import { createActions } from 'reduxsauce';
 import get from 'lodash/get';
 
-export const initialState = { searchQuery: null, iTunesData: {}, iTunesError: null };
+export const initialState = {
+  searchQuery: null,
+  iTunesData: {},
+  iTunesError: null,
+
+  trackID: null,
+  trackData: {},
+  trackError: null
+};
 
 export const { Types: iTunesContainerTypes, Creators: iTunesContainerCreators } = createActions({
   requestGetITunesSongs: ['searchQuery'],
   successGetITunesSongs: ['data'],
   failureGetITunesSongs: ['error'],
-  clearGetITunesSongs: {}
+  clearGetITunesSongs: {},
+
+  requestGetTrackData: ['trackID'],
+  successGetTrackData: ['data'],
+  failureGetTrackData: ['error'],
+  clearGetTrackData: {}
 });
 
 export const iTunesContainerReducer = (state = initialState, action) =>
@@ -33,6 +46,22 @@ export const iTunesContainerReducer = (state = initialState, action) =>
       case iTunesContainerTypes.FAILURE_GET_I_TUNES_SONGS:
         draft.iTunesError = get(action.error, 'message', 'something_went_wrong');
         break;
+
+      case iTunesContainerTypes.REQUEST_GET_TRACK_DATA:
+        draft.trackId = action.trackID;
+        break;
+      case iTunesContainerTypes.CLEAR_GET_TRACK_DATA:
+        draft.trackId = null;
+        draft.trackError = null;
+        draft.trackData = {};
+        break;
+      case iTunesContainerTypes.SUCCESS_GET_TRACK_DATA:
+        draft.trackData = action.data;
+        break;
+      case iTunesContainerTypes.FAILURE_GET_TRACK_DATA:
+        draft.trackError = get(action.error, 'message', 'something_went_wrong');
+        break;
+
       default:
         return state;
     }
