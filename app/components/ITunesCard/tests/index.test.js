@@ -36,19 +36,12 @@ describe('<ITunesCard />', () => {
   });
 
   it('should play/pause music when play/pause button is clicked', async () => {
-    const pauseSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
-    const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
-
     const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
-    fireEvent.click(getByTestId('play-button'));
+    fireEvent.play(getByTestId('itunes-card').querySelector('audio'));
+    expect(onActionClick).toBeCalled();
 
-    await timeout(1000);
-    expect(playSpy).toHaveBeenCalledTimes(1);
-    expect(pauseSpy).toHaveBeenCalledTimes(0);
-
-    fireEvent.click(getByTestId('pause-button'));
-
-    await timeout(1000);
-    expect(pauseSpy).toHaveBeenCalledTimes(1);
+    await timeout(500);
+    fireEvent.pause(getByTestId('audio-element'));
+    expect(onActionClick).toBeCalled();
   });
 });

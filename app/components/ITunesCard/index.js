@@ -8,11 +8,12 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import truncate from 'lodash/truncate';
+import { isEmpty } from 'lodash';
 import { Card, Popover, Tooltip, Button } from 'antd';
-import { PlayCircleOutlined, PauseCircleOutlined, LinkOutlined } from '@ant-design/icons';
+import { LinkOutlined } from '@ant-design/icons';
 import T from '@components/T';
-import { colors } from '@app/themes/index';
-import { PLAY, PAUSE } from '@utils/constants';
+import If from '@components/If';
+import { colors } from '@app/themes';
 
 const CustomCard = styled(Card)`
   && {
@@ -20,12 +21,8 @@ const CustomCard = styled(Card)`
     box-shadow: ${colors.boxShadow};
   }
 `;
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const CustomAudio = styled.audio`
   margin-bottom: 0.75rem;
-  gap: 1em;
 `;
 const CustomImg = styled.img`
   display: block;
@@ -35,23 +32,28 @@ const CustomImg = styled.img`
 
 export function ITunesCard({ track, onActionClick }) {
   const audioRef = useRef(null);
-  const { artistName, trackName, collectionName, trackPrice, primaryGenreName, previewUrl, artworkUrl100 } = track;
-
-  const handleTrackPlay = (action) => {
-    if (action === PLAY) {
-      audioRef.current.play();
-    }
-    if (action === PAUSE) {
-      audioRef.current.pause();
-    }
-    onActionClick(audioRef);
-  };
+  const {
+    artistName,
+    trackName,
+    collectionName,
+    trackPrice,
+    primaryGenreName,
+    previewUrl,
+    artworkUrl100,
+    artistViewUrl,
+    collectionViewUrl,
+    trackViewUrl
+  } = track;
 
   const text = <T id="details" type="subheading" marginBottom={5} />;
   const content = (
     <>
-      <T id="track-price" values={{ price: trackPrice }} />
-      <T id="genre-name" values={{ name: primaryGenreName }} />
+      <If condition={trackPrice}>
+        <T id="track-price" values={{ price: trackPrice }} />
+      </If>
+      <If condition={!isEmpty(primaryGenreName)}>
+        <T id="genre-name" values={{ name: primaryGenreName }} />
+      </If>
     </>
   );
   return (
@@ -64,15 +66,13 @@ export function ITunesCard({ track, onActionClick }) {
       <Popover placement="topRight" title={text} content={content}>
         <CustomImg src={artworkUrl100} alt="artwork" />
       </Popover>
-      <Wrapper>
-        <Button data-testid="play-button" onClick={() => handleTrackPlay(PLAY)} type="text">
-          <PlayCircleOutlined style={{ fontSize: '20px' }} />
-        </Button>
-        <Button data-testid="pause-button" onClick={() => handleTrackPlay(PAUSE)} type="text">
-          <PauseCircleOutlined style={{ fontSize: '20px' }} />
-        </Button>
-      </Wrapper>
-      <audio data-testid="audioElement" ref={audioRef} src={previewUrl} onClick={handleTrackPlay} />
+      <CustomAudio
+        data-testid="audio-element"
+        controls
+        ref={audioRef}
+        src={previewUrl}
+        onPlay={() => onActionClick(audioRef)}
+      />
       <T
         data-testid="trackName"
         id="track-name"
@@ -81,17 +81,23 @@ export function ITunesCard({ track, onActionClick }) {
         marginBottom={5}
       />
       <T data-testid="artistName" id="artist-name" values={{ name: truncate(artistName, { length: 35 }) }} />
-      <Tooltip key="artistViewUrl" title="View Artist">
-        <Button type="link" target="_blank" href={track?.artistViewUrl} icon={<LinkOutlined />}></Button>
-      </Tooltip>
+      <If condition={!isEmpty(artistViewUrl)}>
+        <Tooltip key="artistViewUrl" title="View Artist">
+          <Button type="link" target="_blank" href={track?.artistViewUrl} icon={<LinkOutlined />}></Button>
+        </Tooltip>
+      </If>
       ,
-      <Tooltip key="trackViewUrl" title="View Track">
-        <Button type="link" target="_blank" href={track?.trackViewUrl} icon={<LinkOutlined />}></Button>
-      </Tooltip>
+      <If condition={!isEmpty(trackViewUrl)}>
+        <Tooltip key="trackViewUrl" title="View Track">
+          <Button type="link" target="_blank" href={track?.trackViewUrl} icon={<LinkOutlined />}></Button>
+        </Tooltip>
+      </If>
       ,
-      <Tooltip key="collectionViewUrl" title="View Collection">
-        <Button type="link" target="_blank" href={track?.collectionViewUrl} icon={<LinkOutlined />}></Button>
-      </Tooltip>
+      <If condition={!isEmpty(collectionViewUrl)}>
+        <Tooltip key="collectionViewUrl" title="View Collection">
+          <Button type="link" target="_blank" href={track?.collectionViewUrl} icon={<LinkOutlined />}></Button>
+        </Tooltip>
+      </If>
     </CustomCard>
   );
 }
