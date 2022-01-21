@@ -14,10 +14,10 @@ import { injectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Card, Input, Skeleton } from 'antd';
-import If from '@app/components/If';
-import T from '@app/components/T';
-import For from '@app/components/For';
-import ITunesCard from '@app/components/ITunesCard';
+import If from '@components/If';
+import T from '@components/T';
+import For from '@components/For';
+import ITunesCard from '@components/ITunesCard';
 import { selectITunesSearchQuery, selectITunesData, selectITunesError } from './selectors';
 import { iTunesContainerCreators } from './reducer';
 import saga from './saga';
@@ -92,10 +92,10 @@ export function ITunesContainer({
           <Skeleton loading={loading} active>
             <If condition={!isEmpty(searchQuery)}>
               <div>
-                <T id="search_term" values={{ searchQuery }} />
+                <T id="search_term" values={{ searchQuery }} type="subheading" />
               </div>
             </If>
-            <If condition={totalCount !== 0}>
+            <If condition={totalCount}>
               <div>
                 <T id="matching_tracks" values={{ totalCount }} />
               </div>
@@ -111,19 +111,12 @@ export function ITunesContainer({
     );
   };
   const renderErrorState = () => {
-    let iTuneError;
-    if (iTunesError) {
-      iTuneError = iTunesError;
-    } else if (isEmpty(searchQuery)) {
-      iTuneError = 'itune_search_default';
-    }
+    const getError = () => (iTunesError ? iTunesError : null);
+    const iTuneError = getError();
     return (
-      !loading &&
-      iTuneError && (
-        <If condition={iTunesError} otherwise={<T data-testid="default-message" id={iTuneError} />}>
-          <T data-testid="error-message" text={iTunesError} />
-        </If>
-      )
+      <If condition={iTuneError}>
+        <T data-testid="error-message" text={iTunesError} />
+      </If>
     );
   };
 
@@ -148,7 +141,17 @@ ITunesContainer.propTypes = {
   maxwidth: PropTypes.number,
   iTunesData: PropTypes.shape({
     resultCount: PropTypes.number,
-    results: PropTypes.array
+    results: PropTypes.arrayOf(
+      PropTypes.shape({
+        artistName: PropTypes.string,
+        collectionName: PropTypes.string,
+        trackName: PropTypes.string,
+        previewUrl: PropTypes.string,
+        artworkUrl100: PropTypes.string,
+        trackPrice: PropTypes.number,
+        primaryGenreName: PropTypes.string
+      })
+    )
   }),
   iTunesError: PropTypes.string,
   searchQuery: PropTypes.string,
