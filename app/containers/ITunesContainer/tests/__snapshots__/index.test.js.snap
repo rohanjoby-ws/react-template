@@ -66,12 +66,6 @@ exports[`<ITunesContainer /> container tests should render and match the snapsho
             </span>
           </span>
         </span>
-        <p
-          class="T__StyledText-gjlic1-0 kYcyRq"
-          data-testid="default-message"
-        >
-          Search for a song by entering it's name in the search box
-        </p>
       </div>
     </div>
   </div>

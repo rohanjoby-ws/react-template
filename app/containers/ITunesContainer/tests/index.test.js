@@ -139,7 +139,6 @@ describe('<ITunesContainer /> container tests', () => {
     await timeout(500);
     expect(baseElement.getElementsByClassName('ant-skeleton').length).toBe(1);
   });
-
   it('should test play/pause functionality', async () => {
     const iTunesData = { totalCount: 2, results: [{ artistName: 'Jaymes' }, { artistName: 'Young' }] };
     const { getAllByTestId } = renderProvider(

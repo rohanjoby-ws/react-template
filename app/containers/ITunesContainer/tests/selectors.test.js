@@ -1,6 +1,5 @@
 import {
   selectITunesContainerDomain,
-  selectITunesContainer,
   selectITunesSearchQuery,
   selectITunesData,
   selectITunesError
@@ -29,11 +28,6 @@ describe('ITunesContainer selector tests', () => {
   it('should select the global state', () => {
     const selector = selectITunesContainerDomain(initialState);
     expect(selector).toEqual(initialState);
-  });
-
-  it('should select the iTunesContainer state', () => {
-    const iTunesContainerSelector = selectITunesContainer();
-    expect(iTunesContainerSelector(mockedState)).toEqual(mockedState.iTunesContainer);
   });
 
   it('should select the searchQuery', () => {
