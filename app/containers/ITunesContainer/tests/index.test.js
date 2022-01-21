@@ -139,16 +139,19 @@ describe('<ITunesContainer /> container tests', () => {
     await timeout(500);
     expect(baseElement.getElementsByClassName('ant-skeleton').length).toBe(1);
   });
+
   it('should test play/pause functionality', async () => {
     const iTunesData = { totalCount: 2, results: [{ artistName: 'Jaymes' }, { artistName: 'Young' }] };
     const { getAllByTestId } = renderProvider(
       <ITunesContainer iTunesData={iTunesData} dispatchITunesSongs={submitSpy} />
     );
     const players = getAllByTestId('itunes-card');
-    players.forEach((item) => {
-      fireEvent.play(item.querySelector('audio'));
+    const buttons = getAllByTestId('play-button');
+
+    buttons.forEach((item) => {
+      fireEvent.click(item);
     });
-    await timeout(500);
+
     expect(players[0].querySelector('audio')).toHaveProperty('paused', true);
   });
 });
