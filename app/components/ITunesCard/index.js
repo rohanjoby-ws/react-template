@@ -4,15 +4,17 @@
  *
  */
 
-import React, { useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import truncate from 'lodash/truncate';
 import { isEmpty } from 'lodash';
-import { Card, Popover } from 'antd';
+import { Card, Popover, Button, Progress } from 'antd';
+import { PlayCircleOutlined, PauseCircleOutlined } from '@ant-design/icons';
 import T from '@components/T';
 import If from '@components/If';
 import { colors } from '@app/themes';
+import { ACTIONS } from '@utils/constants';
 
 const CustomCard = styled(Card)`
   && {
@@ -20,17 +22,46 @@ const CustomCard = styled(Card)`
     box-shadow: ${colors.boxShadow};
   }
 `;
-const CustomAudio = styled.audio`
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 0.75rem;
+  gap: 1em;
 `;
 const CustomImg = styled.img`
   display: block;
-  width: 45%;
   margin: 0.75rem auto;
+  height: 10rem;
 `;
 
 export function ITunesCard({ track, onActionClick }) {
   const audioRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const [intervalStore, setIntervalStore] = useState(null);
+
+  useEffect(() => {
+    clearInterval(intervalStore);
+  }, [track]);
+
+  function calculateProgress() {
+    const intervalValue = setInterval(() => {
+      const fraction = (audioRef.current.currentTime / audioRef.current.duration) * 100;
+      setProgress(fraction);
+    }, 1000);
+    setIntervalStore(intervalValue);
+  }
+  const handleTrackPlay = (action) => {
+    if (action === ACTIONS.PLAY) {
+      audioRef.current.play();
+      onActionClick(audioRef);
+      calculateProgress();
+    }
+    if (action === ACTIONS.PAUSE) {
+      audioRef.current.pause();
+      clearInterval(intervalStore);
+    }
+  };
 
   const text = <T id="details" type="subheading" marginBottom={5} />;
   const content = (
@@ -61,13 +92,16 @@ export function ITunesCard({ track, onActionClick }) {
       <Popover placement="topRight" title={text} content={content}>
         <CustomImg src={track.artworkUrl100} alt="artwork" />
       </Popover>
-      <CustomAudio
-        data-testid="audio-element"
-        controls
-        ref={audioRef}
-        src={track.previewUrl}
-        onPlay={() => onActionClick(audioRef)}
-      />
+      <Wrapper>
+        <Button data-testid="play-button" onClick={() => handleTrackPlay(ACTIONS.PLAY)} type="text">
+          <PlayCircleOutlined style={{ fontSize: '20px' }} />
+        </Button>
+        <Progress percent={progress} showInfo={false} />
+        <Button data-testid="pause-button" onClick={() => handleTrackPlay(ACTIONS.PAUSE)} type="text">
+          <PauseCircleOutlined style={{ fontSize: '20px' }} />
+        </Button>
+      </Wrapper>
+      <audio data-testid="audio-element" ref={audioRef} src={track.previewUrl} onClick={handleTrackPlay} />
       <If
         condition={!isEmpty(track?.trackName)}
         otherwise={<T data-testid="track-unavailable" id="track_name_unavailable" />}

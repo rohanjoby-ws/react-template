@@ -25,12 +25,11 @@
   "artist-name": "{name}",
   "artist_unavailable": "Artist name is unavaiable",
   "track-price": "Price: ${price}",
-  "track_price_unavailable": "Track price is unavailable",
+  "track_price_unavailable": "Price: Track price is unavailable",
   "genre-name": "Genre: {name}",
-  "track_genre_unavailable": "Track genre is unavailable",
+  "track_genre_unavailable": "Genre: Track genre is unavailable",
   "release": "Released on {date}",
   "itune_search_default": "Search for a song by entering it's name in the search box",
-  "itune_grid": "Search Results",
   "search_term": "Search query: {searchQuery}",
   "matching_tracks": "Total number of matching songs: {totalCount}"
 }
