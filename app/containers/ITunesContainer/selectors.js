@@ -7,8 +7,6 @@ import { get } from 'lodash';
 
 export const selectITunesContainerDomain = (state) => state.iTunesContainer || initialState;
 
-export const selectITunesContainer = () => createSelector(selectITunesContainerDomain, (substate) => substate);
-
 export const selectITunesSearchQuery = () =>
   createSelector(selectITunesContainerDomain, (substate) => get(substate, 'searchQuery'));
 
@@ -25,5 +23,3 @@ export const selectTrackData = () =>
 
 export const selectTrackError = () =>
   createSelector(selectITunesContainerDomain, (substate) => get(substate, 'trackError'));
-
-export default selectITunesContainer;

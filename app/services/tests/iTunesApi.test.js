@@ -8,8 +8,8 @@ describe('iTunesApi tests', () => {
     const mock = new MockAdapter(getApiClient().axiosInstance);
     const itunesData = [
       {
-        resultCount: 1,
-        items: [{ searchQuery }]
+        totalCount: 1,
+        results: [{ searchQuery }]
       }
     ];
     mock.onGet(`/search?term=${searchQuery}`).reply(200, itunesData);

@@ -4,7 +4,7 @@ exports[`<ITunesCard /> should render and match the snapshot 1`] = `
 <body>
   <div>
     <div
-      class="ant-card ant-card-bordered ItunesCard__CustomCard-sijrgi-0 gWRXjT"
+      class="ant-card ant-card-bordered ITunesCard__CustomCard-plw8mc-0 evgQKq"
       data-testid="itunes-card"
     >
       <div
@@ -18,11 +18,11 @@ exports[`<ITunesCard /> should render and match the snapshot 1`] = `
         </p>
         <img
           alt="artwork"
-          class="ItunesCard__CustomImg-sijrgi-2 feKFOy"
+          class="ITunesCard__CustomImg-plw8mc-2 cETaP"
           src="album-art-url"
         />
         <div
-          class="ItunesCard__Wrapper-sijrgi-1 iCdwVq"
+          class="ITunesCard__Wrapper-plw8mc-1 lgUfLz"
         >
           <button
             class="ant-btn ant-btn-text"
