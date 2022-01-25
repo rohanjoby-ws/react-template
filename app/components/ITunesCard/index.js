@@ -41,6 +41,11 @@ export function ITunesCard({ track, onActionClick }) {
   const [intervalStore, setIntervalStore] = useState(null);
 
   useEffect(() => {
+    return () => {
+      clearInterval(intervalStore);
+    };
+  }, []);
+  useEffect(() => {
     clearInterval(intervalStore);
   }, [track]);
 
@@ -54,6 +59,8 @@ export function ITunesCard({ track, onActionClick }) {
   const handleTrackPlay = (action) => {
     if (action === ACTIONS.PLAY) {
       calculateProgress();
+    } else {
+      clearInterval(intervalStore);
     }
     onActionClick(audioRef, action);
   };

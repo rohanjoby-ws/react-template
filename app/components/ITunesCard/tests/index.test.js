@@ -15,6 +15,7 @@ describe('<ITunesCard />', () => {
   let track, onActionClick;
 
   beforeEach(() => {
+    jest.useFakeTimers();
     track = mockData;
     onActionClick = jest.fn();
   });
@@ -39,32 +40,27 @@ describe('<ITunesCard />', () => {
     expect(getByTestId('artistName')).toHaveTextContent(track.artistName);
   });
 
-  it('should update progress bar based on song play', () => {
-    // const useRefSpy = jest.spyOn(React, 'useRef').mockImplementation(() => {
-    //   return { current: { currentTime: 10, duration: 20 } };
-    // });
-
-    const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
-    const progressBar = getByTestId('progress-bar');
-
-    expect(progressBar).toBeInTheDocument();
-  });
-
-  it('should call onAction click on play with audioRef and play', (done) => {
+  it('should call onAction click on play with audioRef and play', async () => {
     const actionClickHandler = jest.fn();
 
+    const duration = 10.0;
+    const currentTime = 1.0;
+    const percent = (currentTime / duration) * 100;
     const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={actionClickHandler} />);
 
     fireEvent.click(getByTestId('play-button'));
 
     const audioRef = getByTestId('audio-element');
+    audioRef.currentTime = currentTime;
+    audioRef.duration = duration;
     expect(actionClickHandler).toBeCalledWith(
       expect.objectContaining({
         current: audioRef
       }),
       ACTIONS.PLAY
     );
-    done();
+    jest.runOnlyPendingTimers();
+    expect(getByTestId('progress-bar').querySelector('.ant-progress-bg')).toHaveStyle(`width: ${percent}%`);
   });
 
   it('should call onAction click on pause with audioRef and pause', (done) => {
