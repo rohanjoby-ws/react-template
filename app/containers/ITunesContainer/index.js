@@ -75,7 +75,7 @@ export function ITunesContainer({
     }
   };
 
-  const handleOnActionClick = ({ audioRef, action }) => {
+  const handleOnActionClick = (audioRef, action) => {
     if (action === ACTIONS.PLAY) {
       audioRef.current.play();
     }

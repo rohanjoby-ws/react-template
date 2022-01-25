@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
-import { renderWithIntl, timeout } from '@utils/testUtils';
+import { renderWithIntl } from '@utils/testUtils';
 import { ACTIONS } from '@utils/constants';
 import ITunesCard from '../index';
 import { mockData } from './mockData';
@@ -39,109 +39,46 @@ describe('<ITunesCard />', () => {
     expect(getByTestId('artistName')).toHaveTextContent(track.artistName);
   });
 
-  // it('should update progress bar based on song play', () => {
-  //   // const useRefSpy = jest.spyOn(React, 'useRef').mockImplementation(() => {
-  //   //   return { current: { currentTime: 10, duration: 20 } };
-  //   // });
+  it('should update progress bar based on song play', () => {
+    // const useRefSpy = jest.spyOn(React, 'useRef').mockImplementation(() => {
+    //   return { current: { currentTime: 10, duration: 20 } };
+    // });
 
-  //   const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
-  //   const progressBar = getByTestId('progress-bar');
+    const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
+    const progressBar = getByTestId('progress-bar');
 
-  //   expect(progressBar).toBeInTheDocument();
-  // });
+    expect(progressBar).toBeInTheDocument();
+  });
 
-  it('should call onAction click on play and pause', async () => {
-    const refSpy = jest
-      .spyOn(React, 'useRef')
-      .mockReturnValue({ current: <audio data-testid="audio-element" src={mockData.previewUrl} /> });
+  it('should call onAction click on play with audioRef and play', (done) => {
+    const actionClickHandler = jest.fn();
 
-    const actClick = jest.fn();
-    actClick.mockReturnValue('hi')
-
-    const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={actClick} />);
+    const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={actionClickHandler} />);
 
     fireEvent.click(getByTestId('play-button'));
-    // expect(onActionClick).toBeCalled();
-    expect(actClick).toBeCalledWith({
-      action: ACTIONS.PLAY,
-      audioRef: refSpy()
-    });
 
+    const audioRef = getByTestId('audio-element');
+    expect(actionClickHandler).toBeCalledWith(
+      expect.objectContaining({
+        current: audioRef
+      }),
+      ACTIONS.PLAY
+    );
+    done();
+  });
+
+  it('should call onAction click on pause with audioRef and pause', (done) => {
+    const actionClickHandler = jest.fn();
+    const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={actionClickHandler} />);
+    const audioRef = getByTestId('audio-element');
+    audioRef.paused = false;
     fireEvent.click(getByTestId('pause-button'));
-    // expect(onActionClick).toBeCalled();
-    expect(actClick).toBeCalledWith({
-      action: ACTIONS.PAUSE,
-      audioRef: { current: <audio data-testid="audio-element" src={mockData.previewUrl} /> }
-    });
+    expect(actionClickHandler).toBeCalledWith(
+      expect.objectContaining({
+        current: audioRef
+      }),
+      ACTIONS.PAUSE
+    );
+    done();
   });
 });
-
-/*
-    actClick.mockReturnValue({
-      action: ACTIONS.PAUSE,
-      audioRef: { current: <audio data-testid="audio-element" src={mockData.previewUrl} /> }
-    });
-*/
-/*it('should play/pause music when play/pause button is clicked', async () => {
-    const pauseSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
-    const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
-    const handleActionClick = jest.fn();
-
-    const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={handleActionClick} />);
-
-    fireEvent.click(getByTestId('play-button'));
-   
-    await timeout(1000);
-    expect(playSpy).toHaveBeenCalledTimes(1);
-    expect(pauseSpy).toHaveBeenCalledTimes(0);
-
-    fireEvent.click(getByTestId('pause-button'));
-
-    await timeout(1000);
-    expect(pauseSpy).toHaveBeenCalledTimes(1);
-  });*/
-
-/*
-
-it('should play/pause music when play/pause button is clicked', async () => {
-  const pauseSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
-  const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
-  const useRefSpy = jest.spyOn(React, 'useRef').mockImplementation(() => {
-    return { current: <audio data-testid="audio-element" src="preview-url" /> };
-  });
-
-  // const handleActionClick = jest.fn(()=>useRefSpy);
-
-  function mockGetRef(ref) {
-    return { current: <audio data-testid="audio-element" src="preview-url" /> };
-  }
-  const refMock = jest.spyOn(React, 'useRef').mockImplementation(mockGetRef);
-
-  const r = jest.fn();
-  r.mockReturnValueOnce({ current: <audio data-testid="audio-element" src="preview-url" /> });
-
-  const handleActionClick = jest.fn();
- //handleActionClick.mockReturnValue('on click');
-
-  const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={handleActionClick} />);
-
-  fireEvent.click(getByTestId('play-button'));
-  const el = getByTestId('audio-element');
-
-  //  const useRefSpy = jest.fn({ current: <audio data-testid="audio-element" src="preview-url" /> });
-
-  await timeout(1000);
-  expect(playSpy).toHaveBeenCalledTimes(1);
-  expect(pauseSpy).toHaveBeenCalledTimes(0);
-  //expect(handleActionClick).toHaveBeenCalledWith(useRefSpy);
-
-  // expect(handleActionClick).toHaveBeenCalledWith(useRefSpy);
-  // expect(handleActionClick).toHaveBeenCalledWith({
-  //   current: <audio data-testid="audio-element" src="preview-url" />
-  // });
-
-  fireEvent.click(getByTestId('pause-button'));
-
-  await timeout(1000);
-  expect(pauseSpy).toHaveBeenCalledTimes(1);
-})*/

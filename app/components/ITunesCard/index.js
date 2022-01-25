@@ -54,11 +54,8 @@ export function ITunesCard({ track, onActionClick }) {
   const handleTrackPlay = (action) => {
     if (action === ACTIONS.PLAY) {
       calculateProgress();
-    } /*
-    if (action === ACTIONS.PAUSE) {
-      clearInterval(intervalStore);
-    }*/
-    onActionClick({ audioRef, action });
+    }
+    onActionClick(audioRef, action);
   };
 
   const text = <T id="details" type="subheading" marginBottom={5} />;
