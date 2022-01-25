@@ -1,5 +1,0 @@
-<testExecutions version="1">
-<file path="app/containers/ITunesContainer/tests/index.test.js">
-<testCase name="&lt;ITunesContainer /&gt; container tests should render and match the snapshot" duration="91" />
-</file>
-</testExecutions>
