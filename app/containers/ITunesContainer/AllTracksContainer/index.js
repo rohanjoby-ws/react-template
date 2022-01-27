@@ -13,7 +13,6 @@ import styled from 'styled-components';
 import { injectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Link } from 'react-router-dom';
 import { Card, Input, Skeleton } from 'antd';
 import If from '@app/components/If';
 import T from '@app/components/T';
@@ -105,9 +104,9 @@ export function AllTracksContainer({
               of={items}
               ParentComponent={Container}
               renderItem={(item, index) => (
-                <Link data-testid="redirect" to={`/track/${item.trackId}`}>
-                  <ITunesCard key={index} onActionClick={handleOnActionClick} track={item} />
-                </Link>
+                // <Link data-testid="redirect" to={`/track/${item.trackId}`}>
+                <ITunesCard key={index} onActionClick={handleOnActionClick} track={item} />
+                //  </Link>
               )}
             />
           </Skeleton>

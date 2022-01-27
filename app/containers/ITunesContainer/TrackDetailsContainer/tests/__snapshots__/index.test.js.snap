@@ -4,7 +4,7 @@ exports[`<TrackDetailsContainer /> container tests should render and match the s
 <body>
   <div>
     <div>
-      TrackDetailsContainer
+      More details
     </div>
   </div>
 </body>

@@ -14,7 +14,7 @@ import { compose } from 'redux';
 export function TrackDetailsContainer() {
   return (
     <div>
-      <T id={'TrackDetailsContainer'} />
+      <T id={'details'} />
     </div>
   );
 }
