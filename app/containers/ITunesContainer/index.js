@@ -74,14 +74,7 @@ export function ITunesContainer({
     }
   };
 
-  const handleOnActionClick = (audioRef, action) => {
-    // if (action === ACTIONS.PLAY) {
-    //   audioRef.current.play();
-    // }
-    // if (action === ACTIONS.PAUSE) {
-    //   audioRef.current.pause();
-    // }
-
+  const handleOnActionClick = (audioRef) => {
     if (!isEmpty(currentSongRef) && audioRef !== currentSongRef) {
       currentSongRef?.current?.pause();
     }

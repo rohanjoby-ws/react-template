@@ -137,13 +137,13 @@ export function ITunesCard({ track, onActionClick }) {
 
 ITunesCard.propTypes = {
   track: PropTypes.shape({
-    artistName: PropTypes.string,
-    collectionName: PropTypes.string,
-    trackName: PropTypes.string,
+    artistName: PropTypes.string.isRequired,
+    collectionName: PropTypes.string.isRequired,
+    trackName: PropTypes.string.isRequired,
     previewUrl: PropTypes.string,
     artworkUrl100: PropTypes.string,
-    trackPrice: PropTypes.number,
-    primaryGenreName: PropTypes.string
+    trackPrice: PropTypes.number.isRequired,
+    primaryGenreName: PropTypes.string.isRequired
   }),
   onActionClick: PropTypes.func
 };

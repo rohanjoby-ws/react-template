@@ -102,7 +102,7 @@ describe('<ITunesContainer /> container tests', () => {
     expect(getByTestId('error-message').textContent).toBe(customError);
   });
 
-  it.only('should render the card when valid data is passed in', () => {
+  it('should render the card when valid data is passed in', () => {
     const { getByTestId } = renderProvider(
       <ITunesContainer iTunesData={singleMockData} dispatchITunesSongs={submitSpy} />
     );
