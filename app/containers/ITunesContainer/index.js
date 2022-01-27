@@ -18,7 +18,6 @@ import If from '@components/If';
 import T from '@components/T';
 import For from '@components/For';
 import ITunesCard from '@components/ITunesCard';
-import { ACTIONS } from '@utils/constants';
 import { selectITunesSearchQuery, selectITunesData, selectITunesError } from './selectors';
 import { iTunesContainerCreators } from './reducer';
 import saga from './saga';
@@ -76,12 +75,12 @@ export function ITunesContainer({
   };
 
   const handleOnActionClick = (audioRef, action) => {
-    if (action === ACTIONS.PLAY) {
-      audioRef.current.play();
-    }
-    if (action === ACTIONS.PAUSE) {
-      audioRef.current.pause();
-    }
+    // if (action === ACTIONS.PLAY) {
+    //   audioRef.current.play();
+    // }
+    // if (action === ACTIONS.PAUSE) {
+    //   audioRef.current.pause();
+    // }
 
     if (!isEmpty(currentSongRef) && audioRef !== currentSongRef) {
       currentSongRef?.current?.pause();
