@@ -12,13 +12,14 @@ exports[`<ITunesCard /> should render and match the snapshot 1`] = `
       >
         <p
           class="T__StyledText-gjlic1-0 kYcyRq"
-          data-testid="collectionName"
+          data-testid="collection-name"
         >
           Playing from: Uptown Special
         </p>
         <img
           alt="artwork"
           class="ITunesCard__CustomImg-plw8mc-2 cETaP"
+          data-testid="track-art"
           src="album-art-url"
         />
         <div
@@ -103,13 +104,13 @@ exports[`<ITunesCard /> should render and match the snapshot 1`] = `
         />
         <p
           class="T__StyledText-gjlic1-0 liNLPV"
-          data-testid="trackName"
+          data-testid="track-name"
         >
           Uptown Funk
         </p>
         <p
           class="T__StyledText-gjlic1-0 kYcyRq"
-          data-testid="artistName"
+          data-testid="artist-name"
         >
           Mark Ronson
         </p>
