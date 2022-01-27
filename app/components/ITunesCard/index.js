@@ -15,7 +15,6 @@ import T from '@components/T';
 import If from '@components/If';
 import { colors } from '@app/themes';
 import { ACTIONS } from '@utils/constants';
-import logo from '@images/icon-512x512.png';
 
 const CustomCard = styled(Card)`
   && {
@@ -96,14 +95,11 @@ export function ITunesCard({ track, onActionClick }) {
         />
       </If>
       <Popover placement="topRight" title={text} content={content}>
-        <If
-          condition={!isEmpty(track?.artworkUrl100)}
-          otherwise={<CustomImg data-testid="track-art-unavailable" src={logo} alt="logo" />}
-        >
-          <CustomImg data-testid="track-art" src={track.artworkUrl100} alt="artwork" />
+        <If condition={!isEmpty(track?.artworkUrl100)}>
+          <CustomImg data-testid="track-art" src={track?.artworkUrl100} alt="artwork" />
         </If>
       </Popover>
-      <Wrapper>
+      <Wrapper data-testid="player-wrapper">
         <Button data-testid="play-button" onClick={() => handleTrackPlay(ACTIONS.PLAY)} type="text">
           <PlayCircleOutlined style={{ fontSize: '20px' }} />
         </Button>
@@ -112,7 +108,7 @@ export function ITunesCard({ track, onActionClick }) {
           <PauseCircleOutlined style={{ fontSize: '20px' }} />
         </Button>
       </Wrapper>
-      <audio data-testid="audio-element" ref={audioRef} src={track.previewUrl} onClick={handleTrackPlay} />
+      <audio data-testid="audio-element" ref={audioRef} src={track?.previewUrl} onClick={handleTrackPlay} />
       <If
         condition={!isEmpty(track?.trackName)}
         otherwise={<T data-testid="track-unavailable" id="track_name_unavailable" />}
@@ -140,18 +136,18 @@ ITunesCard.propTypes = {
     artistName: PropTypes.string.isRequired,
     collectionName: PropTypes.string.isRequired,
     trackName: PropTypes.string.isRequired,
-    previewUrl: PropTypes.string,
-    artworkUrl100: PropTypes.string,
+    previewUrl: PropTypes.string.isRequired,
+    artworkUrl100: PropTypes.string.isRequired,
     trackPrice: PropTypes.number.isRequired,
     primaryGenreName: PropTypes.string.isRequired
   }),
   onActionClick: PropTypes.func
 };
-ITunesCard.defaultProps = {
-  track: {
-    previewUrl: 'url',
-    artworkUrl100: logo
-  }
-};
+// ITunesCard.defaultProps = {
+//   track: {
+//     previewUrl: 'url',
+//     artworkUrl100: logo
+//   }
+// };
 
 export default ITunesCard;

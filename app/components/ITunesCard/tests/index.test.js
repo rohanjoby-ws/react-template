@@ -19,9 +19,6 @@ describe('<ITunesCard />', () => {
     track = mockData;
     onActionClick = jest.fn();
   });
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
 
   it('should render and match the snapshot', () => {
     const { baseElement } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
@@ -39,19 +36,23 @@ describe('<ITunesCard />', () => {
     expect(getByTestId('collection-name')).toHaveTextContent(track.collectionName);
     expect(getByTestId('track-name')).toHaveTextContent(track.trackName);
     expect(getByTestId('artist-name')).toHaveTextContent(track.artistName);
+    expect(getByTestId('audio-element').src).toBe(track.previewUrl);
+    expect(getByTestId('track-art').src).toBe(track.artworkUrl100);
     expect(getByTestId('progress-bar')).toBeInTheDocument();
+    expect(getByTestId('player-wrapper')).toBeInTheDocument();
   });
 
-  it('should render the unavailable messages in case any props are unavailable or have falsy values', () => {
+  it('should render the unavailable messages in case any props are unavailable or have falsy values', async () => {
     const collectionNameUnavailable = translate('collection_name_unavailable');
     const trackNameUnavailable = translate('track_name_unavailable');
     const artistNameUnavailable = translate('artist_unavailable');
 
-    const { getByTestId } = renderWithIntl(<ITunesCard onActionClick={onActionClick} />);
+    const { getByTestId, queryByTestId } = renderWithIntl(<ITunesCard onActionClick={onActionClick} />);
 
     expect(getByTestId('collection-unavailable')).toHaveTextContent(collectionNameUnavailable);
     expect(getByTestId('track-unavailable')).toHaveTextContent(trackNameUnavailable);
     expect(getByTestId('artist-unavailable')).toHaveTextContent(artistNameUnavailable);
+    expect(queryByTestId('track-art')).not.toBeInTheDocument();
   });
 
   it('should display progress based on the duration and currentTime of the track', async () => {
