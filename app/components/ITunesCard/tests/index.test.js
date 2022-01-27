@@ -31,7 +31,11 @@ describe('<ITunesCard />', () => {
   });
 
   it('should render the song details inside the card', async () => {
-    const { getByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
+    const { getByTestId, findByTestId } = renderWithIntl(<ITunesCard track={track} onActionClick={onActionClick} />);
+
+    fireEvent.mouseOver(getByTestId('track-art'));
+    expect(await findByTestId('track-price')).toHaveTextContent(track.trackPrice);
+    expect(await findByTestId('genre-name')).toHaveTextContent(track.primaryGenreName);
 
     expect(getByTestId('collection-name')).toHaveTextContent(track.collectionName);
     expect(getByTestId('track-name')).toHaveTextContent(track.trackName);
@@ -43,11 +47,17 @@ describe('<ITunesCard />', () => {
   });
 
   it('should render the unavailable messages in case any props are unavailable or have falsy values', async () => {
+    const trackGenreUnavailable = translate('track_genre_unavailable');
+    const trackPriceUnavailable = translate('track_price_unavailable');
     const collectionNameUnavailable = translate('collection_name_unavailable');
     const trackNameUnavailable = translate('track_name_unavailable');
     const artistNameUnavailable = translate('artist_unavailable');
 
-    const { getByTestId, queryByTestId } = renderWithIntl(<ITunesCard onActionClick={onActionClick} />);
+    const { getByTestId, queryByTestId, findByTestId } = renderWithIntl(<ITunesCard onActionClick={onActionClick} />);
+
+    fireEvent.mouseOver(getByTestId('track-art-unavailable'));
+    expect(await findByTestId('price-unavailable')).toHaveTextContent(trackPriceUnavailable);
+    expect(await findByTestId('genre-unavailable')).toHaveTextContent(trackGenreUnavailable);
 
     expect(getByTestId('collection-unavailable')).toHaveTextContent(collectionNameUnavailable);
     expect(getByTestId('track-unavailable')).toHaveTextContent(trackNameUnavailable);

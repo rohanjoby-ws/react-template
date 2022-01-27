@@ -15,6 +15,7 @@ import T from '@components/T';
 import If from '@components/If';
 import { colors } from '@app/themes';
 import { ACTIONS } from '@utils/constants';
+import logo from '@images/icon-512x512.png';
 
 const CustomCard = styled(Card)`
   && {
@@ -82,6 +83,11 @@ export function ITunesCard({ track, onActionClick }) {
       </If>
     </>
   );
+  const noArtWork = (
+    <Popover placement="topRight" title={text} content={content}>
+      <CustomImg data-testid="track-art-unavailable" src={logo} alt="artwork" />
+    </Popover>
+  );
   return (
     <CustomCard data-testid="itunes-card">
       <If
@@ -94,11 +100,11 @@ export function ITunesCard({ track, onActionClick }) {
           values={{ name: truncate(track?.collectionName, { length: 28 }) }}
         />
       </If>
-      <Popover placement="topRight" title={text} content={content}>
-        <If condition={!isEmpty(track?.artworkUrl100)}>
+      <If condition={track?.artworkUrl100} otherwise={noArtWork}>
+        <Popover placement="topRight" title={text} content={content}>
           <CustomImg data-testid="track-art" src={track?.artworkUrl100} alt="artwork" />
-        </If>
-      </Popover>
+        </Popover>
+      </If>
       <Wrapper data-testid="player-wrapper">
         <Button data-testid="play-button" onClick={() => handleTrackPlay(ACTIONS.PLAY)} type="text">
           <PlayCircleOutlined style={{ fontSize: '20px' }} />
@@ -143,11 +149,5 @@ ITunesCard.propTypes = {
   }),
   onActionClick: PropTypes.func
 };
-// ITunesCard.defaultProps = {
-//   track: {
-//     previewUrl: 'url',
-//     artworkUrl100: logo
-//   }
-// };
 
 export default ITunesCard;
