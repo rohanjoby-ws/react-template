@@ -111,8 +111,7 @@ export function ITunesContainer({
     );
   };
   const renderErrorState = () => {
-    const getError = () => (iTunesError ? iTunesError : null);
-    const iTuneError = getError();
+    const iTuneError = iTunesError ?? null;
     return (
       <If condition={iTuneError}>
         <T data-testid="error-message" text={iTunesError} />

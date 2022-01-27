@@ -7,24 +7,18 @@ import {
 import { initialState } from '../reducer';
 
 describe('ITunesContainer selector tests', () => {
-  let mockedState;
-  let searchQuery;
-  let iTunesData;
-  let iTunesError;
+  const searchQuery = 'Infinity';
+  const iTunesData = { totalCount: 1, results: [{ artistName: 'Jaymes Young' }] };
+  const iTunesError = 'There was some error while fetching the song details';
 
-  beforeEach(() => {
-    searchQuery = 'Infinity';
-    iTunesData = { totalCount: 1, results: [{ artistName: 'Jaymes Young' }] };
-    iTunesError = 'There was some error while fetching the song details';
+  const mockedState = {
+    iTunesContainer: {
+      searchQuery,
+      iTunesData,
+      iTunesError
+    }
+  };
 
-    mockedState = {
-      iTunesContainer: {
-        searchQuery,
-        iTunesData,
-        iTunesError
-      }
-    };
-  });
   it('should select the global state', () => {
     const selector = selectITunesContainerDomain(initialState);
     expect(selector).toEqual(initialState);
