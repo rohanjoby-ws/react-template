@@ -41,6 +41,11 @@ export function ITunesCard({ track, onActionClick }) {
   const [intervalStore, setIntervalStore] = useState(null);
 
   useEffect(() => {
+    return () => {
+      clearInterval(intervalStore);
+    };
+  }, []);
+  useEffect(() => {
     clearInterval(intervalStore);
   }, [track]);
 
@@ -53,14 +58,11 @@ export function ITunesCard({ track, onActionClick }) {
   }
   const handleTrackPlay = (action) => {
     if (action === ACTIONS.PLAY) {
-      audioRef.current.play();
-      onActionClick(audioRef);
       calculateProgress();
-    }
-    if (action === ACTIONS.PAUSE) {
-      audioRef.current.pause();
+    } else {
       clearInterval(intervalStore);
     }
+    onActionClick(audioRef, action);
   };
 
   const text = <T id="details" type="subheading" marginBottom={5} />;
@@ -96,7 +98,7 @@ export function ITunesCard({ track, onActionClick }) {
         <Button data-testid="play-button" onClick={() => handleTrackPlay(ACTIONS.PLAY)} type="text">
           <PlayCircleOutlined style={{ fontSize: '20px' }} />
         </Button>
-        <Progress percent={progress} showInfo={false} />
+        <Progress percent={progress} showInfo={false} data-testid="progress-bar" />
         <Button data-testid="pause-button" onClick={() => handleTrackPlay(ACTIONS.PAUSE)} type="text">
           <PauseCircleOutlined style={{ fontSize: '20px' }} />
         </Button>

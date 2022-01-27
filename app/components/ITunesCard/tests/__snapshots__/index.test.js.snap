@@ -55,6 +55,7 @@ exports[`<ITunesCard /> should render and match the snapshot 1`] = `
           </button>
           <div
             class="ant-progress ant-progress-line ant-progress-status-normal ant-progress-default"
+            data-testid="progress-bar"
           >
             <div
               class="ant-progress-outer"

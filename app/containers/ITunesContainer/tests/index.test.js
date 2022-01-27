@@ -141,17 +141,33 @@ describe('<ITunesContainer /> container tests', () => {
   });
 
   it('should test play/pause functionality', async () => {
+    const pauseSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+    const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
+
     const iTunesData = { totalCount: 2, results: [{ artistName: 'Jaymes' }, { artistName: 'Young' }] };
     const { getAllByTestId } = renderProvider(
       <ITunesContainer iTunesData={iTunesData} dispatchITunesSongs={submitSpy} />
     );
     const players = getAllByTestId('itunes-card');
-    const buttons = getAllByTestId('play-button');
+    const playButtons = getAllByTestId('play-button');
+    const pauseButtons = getAllByTestId('pause-button');
 
-    buttons.forEach((item) => {
-      fireEvent.click(item);
-    });
+    // play 1st card
+    fireEvent.click(playButtons[0]);
+    expect(players[0].querySelector('audio')).not.toHaveAttribute('paused');
+    expect(players[1].querySelector('audio')).toHaveProperty('paused', true);
+    expect(playSpy).toHaveBeenCalledTimes(1);
+    expect(pauseSpy).toHaveBeenCalledTimes(0);
 
+    //play 2nd card; 1st should stop
+    fireEvent.click(playButtons[1]);
     expect(players[0].querySelector('audio')).toHaveProperty('paused', true);
+    expect(players[1].querySelector('audio')).not.toHaveAttribute('paused');
+    expect(pauseSpy).toHaveBeenCalledTimes(1);
+
+    //pause 2nd card
+    fireEvent.click(pauseButtons[1]);
+    expect(players[0].querySelector('audio')).toHaveProperty('paused', true);
+    expect(players[1].querySelector('audio')).toHaveProperty('paused', true);
   });
 });

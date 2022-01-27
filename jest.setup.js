@@ -32,3 +32,28 @@ Object.defineProperty(window, 'matchMedia', {
     };
   })
 });
+Object.defineProperty(window.HTMLMediaElement.prototype, 'paused', {
+  writable: true,
+  value: true
+});
+Object.defineProperty(window.HTMLMediaElement.prototype, 'currentTime', {
+  writable: true,
+  value: true
+});
+Object.defineProperty(window.HTMLMediaElement.prototype, 'duration', {
+  writable: true,
+  value: true
+});
+
+window.HTMLMediaElement.prototype.load = () => {
+  /* do nothing */
+};
+window.HTMLMediaElement.prototype.play = () => {
+  /* do nothing */
+};
+window.HTMLMediaElement.prototype.pause = () => {
+  /* do nothing */
+};
+window.HTMLMediaElement.prototype.addTextTrack = () => {
+  /* do nothing */
+};
