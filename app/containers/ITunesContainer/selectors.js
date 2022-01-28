@@ -16,8 +16,6 @@ export const selectITunesData = () =>
 export const selectITunesError = () =>
   createSelector(selectITunesContainerDomain, (substate) => get(substate, 'iTunesError'));
 
-//export const selectTrackID = () => createSelector(selectITunesContainerDomain, (substate) => get(substate, 'trackID'));
-
 export const selectTrackData = () =>
   createSelector(selectITunesContainerDomain, (substate) => get(substate, 'trackData'));
 

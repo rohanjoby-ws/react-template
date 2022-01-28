@@ -51,4 +51,34 @@ describe('ITunesContainer reducer tests', () => {
       })
     ).toEqual(initialState);
   });
+
+  it('should ensure that the user data is present when FETCH_DETAILS_SUCCESS is dispatched', () => {
+    const data = { resultsCount: 1, results: [{ artistName: 'Jaymes Young' }] };
+    const expectedResult = { ...state, trackData: data };
+    expect(
+      iTunesContainerReducer(state, {
+        type: iTunesContainerTypes.SUCCESS_GET_TRACK_DATA,
+        data
+      })
+    ).toEqual(expectedResult);
+  });
+
+  it('should ensure that the userErrorMessage has some data when FETCH_DETAILS_FAILURE is dispatched', () => {
+    const error = 'something_went_wrong';
+    const expectedResult = { ...state, trackError: error };
+    expect(
+      iTunesContainerReducer(state, {
+        type: iTunesContainerTypes.FAILURE_GET_TRACK_DATA,
+        error
+      })
+    ).toEqual(expectedResult);
+  });
+
+  it('should return the initial state when CLEAR_DETAILS is dispatched', () => {
+    expect(
+      iTunesContainerReducer(state, {
+        type: iTunesContainerTypes.CLEAR_GET_TRACK_DATA
+      })
+    ).toEqual(initialState);
+  });
 });

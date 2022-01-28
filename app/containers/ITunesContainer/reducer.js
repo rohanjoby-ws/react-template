@@ -12,7 +12,7 @@ export const initialState = {
   iTunesData: {},
   iTunesError: null,
 
-  trackID: null,
+  //trackID: null,
   trackData: {},
   trackError: null
 };
@@ -23,7 +23,7 @@ export const { Types: iTunesContainerTypes, Creators: iTunesContainerCreators } 
   failureGetITunesSongs: ['error'],
   clearGetITunesSongs: {},
 
-  //requestGetTrackData: ['trackID'],
+  requestGetTrackData: ['trackId'],
   successGetTrackData: ['data'],
   failureGetTrackData: ['error'],
   clearGetTrackData: {}
@@ -47,11 +47,8 @@ export const iTunesContainerReducer = (state = initialState, action) =>
         draft.iTunesError = get(action.error, 'message', 'something_went_wrong');
         break;
 
-      // case iTunesContainerTypes.REQUEST_GET_TRACK_DATA:
-      //   draft.trackId = action.trackID;
-      //   break;
       case iTunesContainerTypes.CLEAR_GET_TRACK_DATA:
-        draft.trackId = null;
+        //draft.trackId = null;
         draft.trackError = null;
         draft.trackData = {};
         break;

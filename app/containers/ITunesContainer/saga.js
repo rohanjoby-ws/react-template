@@ -16,7 +16,7 @@ export function* getITunesSongs(action) {
   }
 }
 export function* getITuneTrackDetails(action) {
-  const response = yield call(getTrackDetails, action.trackID);
+  const response = yield call(getTrackDetails, action.trackId);
   const { data, ok } = response;
   if (ok) {
     yield put(successGetTrackData(data));
@@ -25,7 +25,9 @@ export function* getITuneTrackDetails(action) {
   }
 }
 // Individual exports for testing
-export default function* iTunesContainerSaga() {
+export default function* iTunesAllTracksSaga() {
   yield takeLatest(REQUEST_GET_I_TUNES_SONGS, getITunesSongs);
+}
+export function* iTunesTrackDetailsSaga() {
   yield takeLatest(REQUEST_GET_TRACK_DATA, getITuneTrackDetails);
 }

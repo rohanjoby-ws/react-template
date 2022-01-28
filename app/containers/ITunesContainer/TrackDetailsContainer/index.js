@@ -6,7 +6,7 @@
 
 import React, { memo } from 'react';
 // import PropTypes from 'prop-types'
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage as T } from 'react-intl';
 
 import { compose } from 'redux';
@@ -21,14 +21,6 @@ export function TrackDetailsContainer() {
 
 TrackDetailsContainer.propTypes = {};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch
-  };
-}
-
-const withConnect = connect(null, mapDispatchToProps);
-
-export default compose(withConnect, memo)(TrackDetailsContainer);
+export default compose(memo)(TrackDetailsContainer);
 
 export const TrackDetailsContainerTest = compose(injectIntl)(TrackDetailsContainer);

@@ -8,6 +8,7 @@
     "!app/components/ErrorBoundary/*.js",
     "!app/global-styles.js",
     "!app/*/*/Loadable.{js,jsx}",
+    "!app/*/*/**/Loadable.{js,jsx}",
     "!**/loadable.js",
     "!**/apiUtils.js",
     "!**/testUtils.js",
