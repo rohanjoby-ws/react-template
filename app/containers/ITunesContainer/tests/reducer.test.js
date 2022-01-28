@@ -22,7 +22,7 @@ describe('ITunesContainer reducer tests', () => {
     ).toEqual(expectedResult);
   });
 
-  it('should ensure that the user data is present when FETCH_SONGS_SUCCESS is dispatched', () => {
+  it('should ensure that the song data is present when FETCH_SONGS_SUCCESS is dispatched', () => {
     const data = { totalCount: 1, results: [{ artistName: 'Jaymes Young' }] };
     const expectedResult = { ...state, iTunesData: data };
     expect(
@@ -33,7 +33,7 @@ describe('ITunesContainer reducer tests', () => {
     ).toEqual(expectedResult);
   });
 
-  it('should ensure that the userErrorMessage has some data when FETCH_SONGS_FAILURE is dispatched', () => {
+  it('should ensure that the iTuneErrorMessage has some data when FETCH_SONGS_FAILURE is dispatched', () => {
     const error = 'something_went_wrong';
     const expectedResult = { ...state, iTunesError: error };
     expect(
@@ -52,7 +52,7 @@ describe('ITunesContainer reducer tests', () => {
     ).toEqual(initialState);
   });
 
-  it('should ensure that the user data is present when FETCH_DETAILS_SUCCESS is dispatched', () => {
+  it('should ensure that the track data is present when FETCH_DETAILS_SUCCESS is dispatched', () => {
     const data = { resultsCount: 1, results: [{ artistName: 'Jaymes Young' }] };
     const expectedResult = { ...state, trackData: data };
     expect(
@@ -63,7 +63,7 @@ describe('ITunesContainer reducer tests', () => {
     ).toEqual(expectedResult);
   });
 
-  it('should ensure that the userErrorMessage has some data when FETCH_DETAILS_FAILURE is dispatched', () => {
+  it('should ensure that the trackDetailsErrorMessage has some data when FETCH_DETAILS_FAILURE is dispatched', () => {
     const error = 'something_went_wrong';
     const expectedResult = { ...state, trackError: error };
     expect(
