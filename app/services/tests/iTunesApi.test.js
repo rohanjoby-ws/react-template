@@ -4,12 +4,12 @@ import { getSongs } from '../iTunesApi';
 
 describe('iTunesApi tests', () => {
   const searchQuery = 'Infinity';
-  it('should make the api call to "/search?term="', async () => {
+  it('should make the api call to "/search?term=${searchQuery"', async () => {
     const mock = new MockAdapter(getApiClient().axiosInstance);
     const itunesData = [
       {
         totalCount: 1,
-        items: [{ searchQuery }]
+        results: [{ searchQuery }]
       }
     ];
     mock.onGet(`/search?term=${searchQuery}`).reply(200, itunesData);

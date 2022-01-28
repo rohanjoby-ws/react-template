@@ -8,8 +8,10 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { timeout, renderProvider } from '@utils/testUtils';
+import { translate } from '@app/components/IntlGlobalProvider';
 import { ITunesContainerTest as ITunesContainer, mapDispatchToProps } from '../index';
 import { iTunesContainerTypes } from '../reducer';
+import { mockData, singleMockData } from './mockData';
 
 describe('<ITunesContainer /> container tests', () => {
   let submitSpy;
@@ -59,10 +61,18 @@ describe('<ITunesContainer /> container tests', () => {
     expect(submitSpy).toBeCalledWith(searchQuery);
   });
 
-  it('should call dispatchITunesSongs on submit', async () => {
+  it('should call dispatchITunesSongs on submit of search term', async () => {
     const searchQuery = 'Infinity';
     const { getByTestId } = renderProvider(<ITunesContainer dispatchITunesSongs={submitSpy} />);
     fireEvent.keyDown(getByTestId('search-bar'), { keyCode: 13, target: { value: searchQuery } });
+
+    await timeout(500);
+    expect(submitSpy).toBeCalledWith(searchQuery);
+  });
+
+  it('should  dispatchiTunesSongs on update on mount if searchQuery is already persisted', async () => {
+    const searchQuery = 'Infinity';
+    renderProvider(<ITunesContainer searchQuery={searchQuery} iTunesData={null} dispatchITunesSongs={submitSpy} />);
 
     await timeout(500);
     expect(submitSpy).toBeCalledWith(searchQuery);
@@ -83,5 +93,67 @@ describe('<ITunesContainer /> container tests', () => {
     await timeout(500);
     props.dispatchClearITunesSongs();
     expect(dispatchITunesSongsSpy).toHaveBeenCalledWith(actions.dispatchClearITunesSongs);
+  });
+
+  it('should render error message when search result is invalid/goes wrong', () => {
+    const customError = translate('something_went_wrong');
+    const { getByTestId } = renderProvider(<ITunesContainer iTunesError={customError} />);
+    expect(getByTestId('error-message')).toBeInTheDocument();
+    expect(getByTestId('error-message').textContent).toBe(customError);
+  });
+
+  it('should render the card when valid data is passed in', () => {
+    const { getByTestId } = renderProvider(
+      <ITunesContainer iTunesData={singleMockData} dispatchITunesSongs={submitSpy} />
+    );
+    expect(getByTestId('itunes-card')).toBeInTheDocument();
+  });
+
+  it('should render exact number of iTuneCards as per totalCount in result', () => {
+    const { getAllByTestId } = renderProvider(
+      <ITunesContainer iTunesData={mockData} dispatchITunesSongs={submitSpy} />
+    );
+    expect(getAllByTestId('itunes-card').length).toBe(mockData.totalCount);
+  });
+
+  it('should render Skeleton Comp when "loading" is true', async () => {
+    const searchQuery = 'Infinity';
+    const { getByTestId, baseElement } = renderProvider(
+      <ITunesContainer dispatchITunesSongs={submitSpy} searchQuery={searchQuery} />
+    );
+    fireEvent.change(getByTestId('search-bar'), { target: { value: searchQuery } });
+    await timeout(500);
+    expect(baseElement.getElementsByClassName('ant-skeleton').length).toBe(1);
+  });
+
+  it('should test play/pause functionality and ensure only one song is playing at a time', async () => {
+    const pauseSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+    const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
+
+    const iTunesData = { totalCount: 2, results: [{ artistName: 'Jaymes' }, { artistName: 'Young' }] };
+    const { getAllByTestId } = renderProvider(
+      <ITunesContainer iTunesData={iTunesData} dispatchITunesSongs={submitSpy} />
+    );
+    const players = getAllByTestId('itunes-card');
+    const playButtons = getAllByTestId('play-button');
+    const pauseButtons = getAllByTestId('pause-button');
+
+    // play 1st card
+    fireEvent.click(playButtons[0]);
+    expect(players[0].querySelector('audio')).not.toHaveAttribute('paused');
+    expect(players[1].querySelector('audio')).toHaveProperty('paused', true);
+    expect(playSpy).toHaveBeenCalledTimes(1);
+    expect(pauseSpy).toHaveBeenCalledTimes(0);
+
+    //play 2nd card; 1st should stop
+    fireEvent.click(playButtons[1]);
+    expect(players[0].querySelector('audio')).toHaveProperty('paused', true);
+    expect(players[1].querySelector('audio')).not.toHaveAttribute('paused');
+    expect(pauseSpy).toHaveBeenCalledTimes(1);
+
+    //pause 2nd card
+    fireEvent.click(pauseButtons[1]);
+    expect(players[0].querySelector('audio')).toHaveProperty('paused', true);
+    expect(players[1].querySelector('audio')).toHaveProperty('paused', true);
   });
 });

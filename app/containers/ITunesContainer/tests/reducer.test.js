@@ -23,7 +23,7 @@ describe('ITunesContainer reducer tests', () => {
   });
 
   it('should ensure that the user data is present when FETCH_SONGS_SUCCESS is dispatched', () => {
-    const data = { totalCount: 1, items: [{ artistName: 'Jaymes Young' }] };
+    const data = { totalCount: 1, results: [{ artistName: 'Jaymes Young' }] };
     const expectedResult = { ...state, iTunesData: data };
     expect(
       iTunesContainerReducer(state, {

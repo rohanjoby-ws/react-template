@@ -15,5 +15,21 @@
   "repo_stars_unavailable": "Repository stars are unavaiable",
   "wednesday_solutions": "Wednesday Solutions",
   "iTunes_search": "iTunes Search",
-  "search_for_music": "searc for music..."
+  "search_for_music": "search for music...",
+  "songs": "Song",
+  "details": "More details",
+  "collection-name": "Playing from: {name}",
+  "collection_name_unavailable": "Collection name is unavaiable",
+  "track-name": "{name}",
+  "track_name_unavailable": "Track name is unavaiable",
+  "artist-name": "{name}",
+  "artist_unavailable": "Artist name is unavaiable",
+  "track-price": "Price: ${price}",
+  "track_price_unavailable": "Price: Track price is unavailable",
+  "genre-name": "Genre: {name}",
+  "track_genre_unavailable": "Genre: Track genre is unavailable",
+  "release": "Released on {date}",
+  "itune_search_default": "Search for a song by entering it's name in the search box",
+  "search_term": "Search query: {searchQuery}",
+  "matching_tracks": "Total number of matching songs: {totalCount}"
 }
