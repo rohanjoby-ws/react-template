@@ -143,7 +143,17 @@ AllTracksContainer.propTypes = {
   maxwidth: PropTypes.number,
   iTunesData: PropTypes.shape({
     resultCount: PropTypes.number,
-    results: PropTypes.array
+    results: PropTypes.arrayOf(
+      PropTypes.shape({
+        artistName: PropTypes.string,
+        collectionName: PropTypes.string,
+        trackName: PropTypes.string,
+        previewUrl: PropTypes.string,
+        artworkUrl100: PropTypes.string,
+        trackPrice: PropTypes.number,
+        primaryGenreName: PropTypes.string
+      })
+    )
   }),
   iTunesError: PropTypes.string,
   searchQuery: PropTypes.string,
