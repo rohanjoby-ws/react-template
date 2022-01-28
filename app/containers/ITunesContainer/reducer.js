@@ -12,7 +12,6 @@ export const initialState = {
   iTunesData: {},
   iTunesError: null,
 
-  //trackID: null,
   trackData: {},
   trackError: null
 };
@@ -48,7 +47,6 @@ export const iTunesContainerReducer = (state = initialState, action) =>
         break;
 
       case iTunesContainerTypes.CLEAR_GET_TRACK_DATA:
-        //draft.trackId = null;
         draft.trackError = null;
         draft.trackData = {};
         break;

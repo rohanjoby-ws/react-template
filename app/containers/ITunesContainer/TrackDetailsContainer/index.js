@@ -5,8 +5,6 @@
  */
 
 import React, { memo } from 'react';
-// import PropTypes from 'prop-types'
-// import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage as T } from 'react-intl';
 
 import { compose } from 'redux';

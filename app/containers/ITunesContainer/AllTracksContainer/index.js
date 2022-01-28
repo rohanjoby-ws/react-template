@@ -103,11 +103,7 @@ export function AllTracksContainer({
             <For
               of={items}
               ParentComponent={Container}
-              renderItem={(item, index) => (
-                // <Link data-testid="redirect" to={`/track/${item.trackId}`}>
-                <ITunesCard key={index} onActionClick={handleOnActionClick} track={item} />
-                //  </Link>
-              )}
+              renderItem={(item, index) => <ITunesCard key={index} onActionClick={handleOnActionClick} track={item} />}
             />
           </Skeleton>
         </CustomCard>
