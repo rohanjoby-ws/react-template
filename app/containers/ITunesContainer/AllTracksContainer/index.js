@@ -74,11 +74,11 @@ export function AllTracksContainer({
     }
   };
 
-  const handleOnActionClick = (trackRef) => {
-    if (!isEmpty(currentSongRef) && trackRef !== currentSongRef) {
+  const handleOnActionClick = (audioRef) => {
+    if (!isEmpty(currentSongRef) && audioRef !== currentSongRef) {
       currentSongRef?.current?.pause();
     }
-    setCurentSongRef(trackRef);
+    setCurentSongRef(audioRef);
   };
 
   const debouncedHandleOnChange = debounce(handleOnChange, 200);
@@ -115,12 +115,7 @@ export function AllTracksContainer({
     );
   };
   const renderErrorState = () => {
-    let iTuneError;
-    if (iTunesError) {
-      iTuneError = iTunesError;
-    } else if (isEmpty(searchQuery)) {
-      iTuneError = 'itune_search_default';
-    }
+    const iTuneError = iTunesError ?? null;
     return (
       !loading &&
       iTuneError && (

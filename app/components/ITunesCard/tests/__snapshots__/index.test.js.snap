@@ -12,17 +12,19 @@ exports[`<ITunesCard /> should render and match the snapshot 1`] = `
       >
         <p
           class="T__StyledText-gjlic1-0 kYcyRq"
-          data-testid="collectionName"
+          data-testid="collection-name"
         >
           Playing from: Uptown Special
         </p>
         <img
           alt="artwork"
           class="ITunesCard__CustomImg-plw8mc-2 cETaP"
-          src="album-art-url"
+          data-testid="track-art"
+          src="https://is2-ssl.mzstatic.com/image/thumb/Music5/v4/22/a0/3e/22a03e12-0c97-b5fc-d693-c02186f6c79d/source/30x30bb.jpgpreview-url"
         />
         <div
           class="ITunesCard__Wrapper-plw8mc-1 lgUfLz"
+          data-testid="player-wrapper"
         >
           <button
             class="ant-btn ant-btn-text"
@@ -99,17 +101,17 @@ exports[`<ITunesCard /> should render and match the snapshot 1`] = `
         </div>
         <audio
           data-testid="audio-element"
-          src="preview-url"
+          src="https://is2-ssl.mzstatic.com/image/thumb/Music5/v4/22/a0/3e/22a03e12-0c97-b5fc-d693-c02186f6c79d/source/30x30bb.jpgpreview-url"
         />
         <p
           class="T__StyledText-gjlic1-0 liNLPV"
-          data-testid="trackName"
+          data-testid="track-name"
         >
           Uptown Funk
         </p>
         <p
           class="T__StyledText-gjlic1-0 kYcyRq"
-          data-testid="artistName"
+          data-testid="artist-name"
         >
           Mark Ronson
         </p>
