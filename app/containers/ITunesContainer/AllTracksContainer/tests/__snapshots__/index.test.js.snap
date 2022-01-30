@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ITunesContainer /> container tests should render and match the snapshot 1`] = `
+exports[`<AllTracksContainer /> container tests should render and match the snapshot 1`] = `
 <body>
   <div>
     <div
-      class="ant-card ant-card-bordered ITunesContainer__CustomCard-lb7bgf-0 bQbomk"
+      class="ant-card ant-card-bordered AllTracksContainer__CustomCard-sc-23hfkk-0 bNbLgx"
       maxwidth="500"
     >
       <div

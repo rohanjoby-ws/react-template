@@ -1,6 +1,6 @@
 /**
  *
- * ITunesContainer
+ * AllTracksContainer
  *
  */
 
@@ -18,9 +18,9 @@ import If from '@components/If';
 import T from '@components/T';
 import For from '@components/For';
 import ITunesCard from '@components/ITunesCard';
-import { selectITunesSearchQuery, selectITunesData, selectITunesError } from './selectors';
-import { iTunesContainerCreators } from './reducer';
-import saga from './saga';
+import { selectITunesSearchQuery, selectITunesData, selectITunesError } from '../selectors';
+import { iTunesContainerCreators } from '../reducer';
+import saga from '../saga';
 
 const { Search } = Input;
 
@@ -39,7 +39,7 @@ const Container = styled.div`
   }
 `;
 
-export function ITunesContainer({
+export function AllTracksContainer({
   dispatchITunesSongs,
   dispatchClearITunesSongs,
   searchQuery,
@@ -92,7 +92,7 @@ export function ITunesContainer({
           <Skeleton loading={loading} active>
             <If condition={!isEmpty(searchQuery)}>
               <div>
-                <T id="search_term" values={{ searchQuery }} type="subheading" />
+                <T id="search_term" values={{ searchQuery }} />
               </div>
             </If>
             <If condition={totalCount}>
@@ -113,9 +113,12 @@ export function ITunesContainer({
   const renderErrorState = () => {
     const iTuneError = iTunesError ?? null;
     return (
-      <If condition={iTuneError}>
-        <T data-testid="error-message" text={iTunesError} />
-      </If>
+      !loading &&
+      iTuneError && (
+        <If condition={iTunesError} otherwise={<T data-testid="default-message" id={iTuneError} />}>
+          <T data-testid="error-message" text={iTunesError} />
+        </If>
+      )
     );
   };
 
@@ -134,7 +137,7 @@ export function ITunesContainer({
   );
 }
 
-ITunesContainer.propTypes = {
+AllTracksContainer.propTypes = {
   dispatchITunesSongs: PropTypes.func,
   dispatchClearITunesSongs: PropTypes.func,
   maxwidth: PropTypes.number,
@@ -156,7 +159,7 @@ ITunesContainer.propTypes = {
   searchQuery: PropTypes.string,
   intl: PropTypes.object
 };
-ITunesContainer.defaultProps = {
+AllTracksContainer.defaultProps = {
   maxwidth: 500,
   padding: 20,
   iTunesData: {},
@@ -182,6 +185,6 @@ export default compose(
   withConnect,
   memo,
   injectSaga({ key: 'iTunesContainer', saga: saga })
-)(ITunesContainer);
+)(AllTracksContainer);
 
-export const ITunesContainerTest = compose(injectIntl)(ITunesContainer);
+export const AllTracksContainerTest = compose(injectIntl)(AllTracksContainer);

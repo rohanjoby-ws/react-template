@@ -1,6 +1,6 @@
 /**
  *
- * Tests for ITunesContainer
+ * Tests for AllTracksContainer
  *
  *
  */
@@ -9,11 +9,11 @@ import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { timeout, renderProvider } from '@utils/testUtils';
 import { translate } from '@app/components/IntlGlobalProvider';
-import { ITunesContainerTest as ITunesContainer, mapDispatchToProps } from '../index';
-import { iTunesContainerTypes } from '../reducer';
+import { AllTracksContainerTest as AllTracksContainer, mapDispatchToProps } from '../index';
+import { iTunesContainerTypes } from '../../reducer';
 import { mockData, singleMockData } from './mockData';
 
-describe('<ITunesContainer /> container tests', () => {
+describe('<AllTracksContainer /> container tests', () => {
   let submitSpy;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('<ITunesContainer /> container tests', () => {
   });
 
   it('should render and match the snapshot', () => {
-    const { baseElement } = renderProvider(<ITunesContainer />);
+    const { baseElement } = renderProvider(<AllTracksContainer />);
     expect(baseElement).toMatchSnapshot();
   });
 
@@ -29,7 +29,7 @@ describe('<ITunesContainer /> container tests', () => {
     const getITunesSongsSpy = jest.fn();
     const clearITunesSongsSpy = jest.fn();
     const { getByTestId } = renderProvider(
-      <ITunesContainer dispatchClearITunesSongs={clearITunesSongsSpy} dispatchITunesSongs={getITunesSongsSpy} />
+      <AllTracksContainer dispatchClearITunesSongs={clearITunesSongsSpy} dispatchITunesSongs={getITunesSongsSpy} />
     );
     fireEvent.change(getByTestId('search-bar'), {
       target: { value: 'a' }
@@ -45,7 +45,7 @@ describe('<ITunesContainer /> container tests', () => {
 
   it('should call dispatchITunesSongs on change and after enter', async () => {
     const searchQuery = 'Infinity';
-    const { getByTestId } = renderProvider(<ITunesContainer dispatchITunesSongs={submitSpy} />);
+    const { getByTestId } = renderProvider(<AllTracksContainer dispatchITunesSongs={submitSpy} />);
     const searchBar = getByTestId('search-bar');
     fireEvent.change(searchBar, {
       target: { value: searchQuery }
@@ -63,7 +63,7 @@ describe('<ITunesContainer /> container tests', () => {
 
   it('should call dispatchITunesSongs on submit of search term', async () => {
     const searchQuery = 'Infinity';
-    const { getByTestId } = renderProvider(<ITunesContainer dispatchITunesSongs={submitSpy} />);
+    const { getByTestId } = renderProvider(<AllTracksContainer dispatchITunesSongs={submitSpy} />);
     fireEvent.keyDown(getByTestId('search-bar'), { keyCode: 13, target: { value: searchQuery } });
 
     await timeout(500);
@@ -72,7 +72,7 @@ describe('<ITunesContainer /> container tests', () => {
 
   it('should  dispatchiTunesSongs on update on mount if searchQuery is already persisted', async () => {
     const searchQuery = 'Infinity';
-    renderProvider(<ITunesContainer searchQuery={searchQuery} iTunesData={null} dispatchITunesSongs={submitSpy} />);
+    renderProvider(<AllTracksContainer searchQuery={searchQuery} iTunesData={null} dispatchITunesSongs={submitSpy} />);
 
     await timeout(500);
     expect(submitSpy).toBeCalledWith(searchQuery);
@@ -97,21 +97,21 @@ describe('<ITunesContainer /> container tests', () => {
 
   it('should render error message when search result is invalid/goes wrong', () => {
     const customError = translate('something_went_wrong');
-    const { getByTestId } = renderProvider(<ITunesContainer iTunesError={customError} />);
+    const { getByTestId } = renderProvider(<AllTracksContainer iTunesError={customError} />);
     expect(getByTestId('error-message')).toBeInTheDocument();
     expect(getByTestId('error-message').textContent).toBe(customError);
   });
 
   it('should render the card when valid data is passed in', () => {
     const { getByTestId } = renderProvider(
-      <ITunesContainer iTunesData={singleMockData} dispatchITunesSongs={submitSpy} />
+      <AllTracksContainer iTunesData={singleMockData} dispatchITunesSongs={submitSpy} />
     );
     expect(getByTestId('itunes-card')).toBeInTheDocument();
   });
 
   it('should render exact number of iTuneCards as per totalCount in result', () => {
     const { getAllByTestId } = renderProvider(
-      <ITunesContainer iTunesData={mockData} dispatchITunesSongs={submitSpy} />
+      <AllTracksContainer iTunesData={mockData} dispatchITunesSongs={submitSpy} />
     );
     expect(getAllByTestId('itunes-card').length).toBe(mockData.totalCount);
   });
@@ -119,7 +119,7 @@ describe('<ITunesContainer /> container tests', () => {
   it('should render Skeleton Comp when "loading" is true', async () => {
     const searchQuery = 'Infinity';
     const { getByTestId, baseElement } = renderProvider(
-      <ITunesContainer dispatchITunesSongs={submitSpy} searchQuery={searchQuery} />
+      <AllTracksContainer dispatchITunesSongs={submitSpy} searchQuery={searchQuery} />
     );
     fireEvent.change(getByTestId('search-bar'), { target: { value: searchQuery } });
     await timeout(500);
@@ -130,9 +130,8 @@ describe('<ITunesContainer /> container tests', () => {
     const pauseSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
     const playSpy = jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
 
-    const iTunesData = { totalCount: 2, results: [{ artistName: 'Jaymes' }, { artistName: 'Young' }] };
     const { getAllByTestId } = renderProvider(
-      <ITunesContainer iTunesData={iTunesData} dispatchITunesSongs={submitSpy} />
+      <AllTracksContainer iTunesData={mockData} dispatchITunesSongs={submitSpy} />
     );
     const players = getAllByTestId('itunes-card');
     const playButtons = getAllByTestId('play-button');
