@@ -95,7 +95,7 @@ export function AllTracksContainer({
                 <T id="search_term" values={{ searchQuery }} />
               </div>
             </If>
-            <If condition={totalCount !== 0}>
+            <If condition={totalCount}>
               <div>
                 <T id="matching_tracks" values={{ totalCount }} />
               </div>
