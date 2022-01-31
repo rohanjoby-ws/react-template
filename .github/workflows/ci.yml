@@ -1,7 +1,8 @@
-name: React Template CI
+name: ITunes App CI
 on:
   pull_request:
-    branches: [master]
+    branches: 
+      - master
 jobs:
   build-and-test:
     name: Build & Test
@@ -28,13 +29,3 @@ jobs:
 
       - name: Build
         run: yarn build
-
-#       - name: SonarCloud Scan
-#         uses: sonarsource/sonarcloud-github-action@master
-#         with:
-#           args: >
-#             -Dsonar.organization=${{ secrets.SONAR_ORG}}
-#             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY}}
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
