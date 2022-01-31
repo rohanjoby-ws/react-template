@@ -3,6 +3,7 @@ on:
   push:
     branches: 
       - master
+      - feat/ci-cd
 jobs:          
   build-and-deploy-to-S3:
       runs-on: ubuntu-latest
