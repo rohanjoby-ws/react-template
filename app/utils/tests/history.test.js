@@ -11,7 +11,7 @@ describe('Tests for baseUrl method in history', () => {
     window.location = location;
   });
 
-  it('should return dfthe branch-name as part of the baseUrl when the ENVIRONMENT_NAME is uat', () => {
+  it('should return the branch-name as part of the baseUrl when the ENVIRONMENT_NAME is uat', () => {
     const featName = `/feat/uat-on-pr`;
     const location = window.location;
     delete window.location;
