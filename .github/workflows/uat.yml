@@ -1,7 +1,6 @@
 name: Continuous Deployment on PR
 on:
   pull_request:
-  push:
     branches:
       - master
       - feat/uat-on-pr
