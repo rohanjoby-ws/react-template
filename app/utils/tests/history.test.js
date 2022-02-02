@@ -1,21 +1,25 @@
-import { baseUrl } from '../history';
-
 describe('Tests for baseUrl method in history', () => {
-  const OLD_ENV = process.env;
-  beforeEach(() => {
-    jest.resetModules();
-    process.env = { ...OLD_ENV };
+  it('should not return the branch-name as part of the baseUrl when the ENVIRONMENT_NAME is not uat', () => {
+    const featName = `/feat/uat-on-pr`;
+    const location = window.location;
+    delete window.location;
+    window.location = { pathname: `${featName}/` };
+    process.env.ENVIRONMENT_NAME = 'dev';
+    const { getBaseUrl } = require('../history');
+
+    expect(getBaseUrl()).not.toBe(featName);
+    window.location = location;
   });
 
-  afterAll(() => {
-    process.env = OLD_ENV;
-  });
-  it('should the path /react-template in production', () => {
-    process.env.NODE_ENV = 'production';
-    expect(baseUrl()).toEqual('/react-template');
-  });
+  it('should return the branch-name as part of the baseUrl when the ENVIRONMENT_NAME is uat', () => {
+    const featName = `/feat/uat-on-pr`;
+    const location = window.location;
+    delete window.location;
+    window.location = { pathname: `${featName}/` };
+    process.env.ENVIRONMENT_NAME = 'uat';
+    const { getBaseUrl } = require('../history');
 
-  it('should the path /react-template in development or test mode', () => {
-    expect(baseUrl()).toEqual('/');
+    expect(getBaseUrl()).toBe(featName);
+    window.location = location;
   });
 });
